@@ -2,6 +2,7 @@ const express = require('express')
 const morgan = require('morgan')
 const fileUpload = require('express-fileupload')
 const mongoose = require('mongoose')
+const productRouter = require('./routes/product')
 require('dotenv').config()
 
 const app = express()
@@ -14,6 +15,8 @@ app.use(fileUpload({
     useTempFiles: true,
     tempFileDir: '/tmp/',
 }))
+
+app.use("/api/v1",productRouter)
 
 mongoose.connect(process.env.URI)
     .then(() => {
