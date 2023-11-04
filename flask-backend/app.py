@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 import requests
+import json
+import pandas as pd
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -37,7 +39,37 @@ def fetch_data():
 
 @app.route('/send', methods=['GET'])
 def send_json_response():
-    return jsonify(data)
+    global data
+    response = requests.get(f'{NODE_JS_SERVER}/api/v1/test')
+    print(response)
+    if response.status_code == 200:
+        data = response.json()
+    file = open('temp.json', 'w')
+    json.dump(data, file)
+    file.close()
+
+    products, timeline = {}, {}
+
+    df = pd.read_json('temp.json')
+
+    for i in df['data']:
+        # print(i)
+        if i['product_id'] in products:
+            products[i['product_id']] += 1
+        else:
+            products[i['product_id']] = 1
+
+
+    for i in df['data']:
+        if i['purchasedat'][5:7] in timeline:
+            timeline[i['purchasedat'][5:7]] += 1
+        else:
+            timeline[i['purchasedat'][5:7]] = 1
+
+    print(products, timeline, sep='\n')
+
+    return jsonify({'products': products, 'timeline': timeline})
+    
 
 def url_gen_amz(search_term):
     url = 'https://www.amazon.in/s?k='
