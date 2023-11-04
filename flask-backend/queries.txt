@@ -1,0 +1,7 @@
+SELECT price, quantity_sold FROM sales
+   WHERE MONTH(purchased_at) = 1 AND YEAR(purchased_at) = 2023 AND artist_id = 1 and product_id = 1
+
+
+SELECT price, quantity_sold FROM sales
+   WHERE MONTH(purchased_at) = 1 AND YEAR(purchased_at) = 2023 AND artist_id = 1
+
