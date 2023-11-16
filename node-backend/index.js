@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 const productRouter = require('./routes/product')
 const analyticsRouter = require('./routes/analytics')
 const {sequelize} = require('./db/db')
+const RBACRouter = require('./routes/RBAC')
 require('dotenv').config()
 
 const app = express()
@@ -19,20 +20,23 @@ app.use(fileUpload({
 }))
 
 app.use("/api/v1/product",productRouter)
+app.use("/api/v1", RBACRouter)
 app.use("/api/v1",analyticsRouter)
 
 
 mongoose.connect(process.env.URI)
     .then(() => {
         console.log("DB connected");
-        
-        app.listen(process.env.PORT,"192.168.179.61", () => {
+        const Port = 3000 || process.env.PORT;
+        app.listen(Port, () => {
             console.log(`Server started on port ${process.env.PORT}`);
         })
-        sequelize.authenticate().then(() => {
-            console.log("Connected to RDS");
-        })
+        // sequelize.authenticate().then(() => {
+        //     console.log("Connected to RDS");
+        // })
         .catch(err => {
             console.log(err);
         })
+    }).catch((err)=>{
+        console.log(err);
     })
