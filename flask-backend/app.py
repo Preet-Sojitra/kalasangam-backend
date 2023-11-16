@@ -1,14 +1,23 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
+from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
+
 import requests
 import json
 import pandas as pd
+from dotenv import load_dotenv
+import os
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
+load_dotenv()
+
 app = Flask(__name__)
 CORS(app)
+
+app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
+jwt = JWTManager(app)
 
 NODE_JS_SERVER = 'http://192.168.140.61:3000'
 
@@ -127,6 +136,12 @@ def price_cleanup(price_list):
         except Exception as e:
             pass
     return l_prices
+
+@app.route('/protected', methods=['GET'])
+@jwt_required()
+def protected():
+    current_user = get_jwt_identity()
+    return jsonify(logged_in_as=current_user), 200
 
 
 if __name__ == '__main__':
