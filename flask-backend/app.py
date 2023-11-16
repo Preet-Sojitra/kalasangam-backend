@@ -130,7 +130,7 @@ def price_cleanup(price_list):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0')
     # response = requests.get(f'{NODE_JS_SERVER}/api/v1/test')
     
     # data = response.json
