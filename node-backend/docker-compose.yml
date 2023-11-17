@@ -13,8 +13,9 @@ services:
     networks:
       - mynetwork
     volumes:
+      - postgres_data:/var/lib/postgresql/data
       - ./create_fixtures.sql:/docker-entrypoint-initdb.d/create_fixtures.sql
-  
+
   mongodb:
     image: mongo:latest
     container_name: mongodb_container
@@ -22,7 +23,13 @@ services:
       - "27017:27017"
     networks:
       - mynetwork
+    volumes:
+      - mongodb_data:/data/db
 
 networks:
   mynetwork:
     driver: bridge
+
+volumes:
+  postgres_data:
+  mongodb_data:
