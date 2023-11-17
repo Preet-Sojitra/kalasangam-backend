@@ -8,12 +8,19 @@ const { sequelize } = require("./db/db")
 const RBACRouter = require("./routes/RBAC")
 require("dotenv").config()
 cors = require("cors")
+const cookieParser = require("cookie-parser")
+
+const corsOptions = {
+  origin: true,
+  credentials: true,
+}
 
 const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(cors())
+app.use(cors(corsOptions))
+app.use(cookieParser())
 
 app.use(morgan("tiny"))
 app.use(
