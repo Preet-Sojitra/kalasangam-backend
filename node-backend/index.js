@@ -37,8 +37,8 @@ mongoose
   .then(() => {
     console.log("DB connected")
     const Port = 3000 || process.env.PORT
-    app.listen(Port, () => {
-      console.log(`Server started on port ${process.env.PORT}`)
+    app.listen(Port, process.env.IP, () => {
+      console.log(`Server is running on port ${Port}`)
     })
     // sequelize.authenticate().then(() => {
     //     console.log("Connected to RDS");
