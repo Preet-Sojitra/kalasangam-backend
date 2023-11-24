@@ -21,6 +21,7 @@ exports.artisanLogin = async (req, res) => {
     )
     res.cookie("accessToken", token)
     res.cookie("role", "artisan") // Sending role also in cookie. This is for frontend to know which role is logged in
+    res.cookie("artisanId",artisan._id)
     return res.status(200).json({
       message: "Login successful",
       accessToken: token,
@@ -82,6 +83,7 @@ exports.artisanRegister = async (req, res) => {
     // res.cookie.accessToken = token;
     res.cookie("accessToken", token)
     res.cookie("role", "artisan") // Sending role also in cookie. This is for frontend to know which role is logged in
+    res.cookie("artisanId",artisan._id)
     return res.status(200).json({
       message: "Registration successful",
       accessToken: token,

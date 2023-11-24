@@ -11,6 +11,10 @@ const productSchema = new mongoose.Schema({
         }
     ],
     model:String,
+    artist:{
+        type: mongoose.Types.ObjectId,
+        ref:'Artisan'
+    }
 }, {timestamps: true})
 
 module.exports = mongoose.model('Product',productSchema)

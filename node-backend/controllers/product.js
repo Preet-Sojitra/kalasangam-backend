@@ -2,6 +2,7 @@ const Product = require('../models/product')
 const { uploadImages } = require('../utils/uploadImage')
 const {DeleteObjectCommand} = require('@aws-sdk/client-s3')
 const {s3Client} = require('../utils/s3Client')
+const {addOrder} = require('../controllers/order')
 
 exports.addProduct = async(req,res) => {
     try {
@@ -80,7 +81,7 @@ exports.deleteProduct = async(req,res) => {
         if(product.images){
             try {
                 product.images.forEach(async(image) => {
-                    console.log(image.key);
+                    // console.log(image.key);
                     let params = {
                         Bucket: process.env.AWS_BUCKET_NAME,
                         Key:image.key
@@ -123,5 +124,27 @@ exports.getAllProducts = async(req, res) => {
         return res.status(200).json({message: "Products found!", productsData})
     }catch(error){
         return res.status(500).json(error)
+    }
+}
+
+exports.viewInventory = async(req,res) => {
+    try {
+        const id = req.params.id 
+        const products = Product.find({artist: id})
+        if(!products){
+            return res.status(400).json("No products found")
+        }
+        return res.status(200).json(products)
+    } catch (error) {
+        return res.status(500).json(error.message)
+    }
+}
+
+exports.buyProduct = async(req,res) => {
+    try {
+        const {customer,product,artisan} = req.body 
+        const order = await addOrder(customer,product,artisan)
+    } catch (error) {
+        return res.status(500).json(error.message)
     }
 }
