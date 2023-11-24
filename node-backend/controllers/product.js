@@ -1,5 +1,7 @@
 const Product = require('../models/product')
 const { uploadImages } = require('../utils/uploadImage')
+const {DeleteObjectCommand} = require('@aws-sdk/client-s3')
+const {s3Client} = require('../utils/s3Client')
 
 exports.addProduct = async(req,res) => {
     try {
@@ -14,6 +16,8 @@ exports.addProduct = async(req,res) => {
         if(req.files.images){
             urlArr = await uploadImages(res,req.files.images)
         }
+
+        console.log(urlArr);
 
         await Product.create({
             name,
@@ -70,14 +74,28 @@ exports.updateProduct = async(req, res) => {
 }
 
 //delete product endpoint being added --> need product object id in params
-exports.deleteProduct = async(req, res) =>{
-    try{
-        await Product.findByIdAndDelete(req.params.id)
-        .then(() => {
-            return res.status(200).json({message: "Product Deleted!"})
-        })
-    }catch(error){
-        return res.status(500).json(error)
+exports.deleteProduct = async(req,res) => {
+    try {
+        const product = await Product.findById(req.params.id)
+        if(product.images){
+            try {
+                product.images.forEach(async(image) => {
+                    console.log(image.key);
+                    let params = {
+                        Bucket: process.env.AWS_BUCKET_NAME,
+                        Key:image.key
+                    }
+                    const command = new DeleteObjectCommand(params)
+                    await s3Client.send(command)
+                });
+            } catch (error) {
+                return res.status(500).json(error.message)
+            }
+        }
+        await product.deleteOne()
+        return res.status(200).json("Product deleted")
+    } catch (error) {
+        return res.status(500).json(error.message)
     }
 }
 

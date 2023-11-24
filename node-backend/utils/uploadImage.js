@@ -7,7 +7,7 @@ exports.uploadImages = async(res,images) => {
         let urlArr=[]
             if(Array.isArray(images)){
                 for(let index in images){
-                    // console.log(images[index].name);
+                    console.log(images[index].name);
                     let image = images[index]
                     let name = image.name
                     name = name.replaceAll(/\s/g,'')
@@ -30,8 +30,10 @@ exports.uploadImages = async(res,images) => {
                 }
                 return urlArr;
             }else if(!Array.isArray(images)){
+                // console.log(images);
                 let name = images.name
                 name = name.replaceAll(/\s/g,'')
+                // console.log(name);
                     const params = {
                         Bucket: process.env.AWS_BUCKET_NAME,
                         Key: name,
