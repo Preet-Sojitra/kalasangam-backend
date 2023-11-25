@@ -16,8 +16,8 @@ db_string = f'postgresql://{db_username}:{db_password}@{db_host}:{db_port}/{db_n
 db = create_engine(db_string)
 
 client = pymongo.MongoClient('mongodb://localhost:27017/')
-db = client['customersdb']
-customers = db['customers']
+db_mongo = client['SSIP']
+products = db_mongo['products']
 
 options = webdriver.FirefoxOptions()
 options.add_argument("-headless")
@@ -80,17 +80,19 @@ def price_cleanup(price_list):
             pass
     return l_prices
 
+
+
 def mongo_traverse():
-     with db.connect() as conn:
-        result = conn.execute(text("SELECT product_name FROM products"))
-        prods = []
-        for r in result:
-            prods.append(r[0])
-        for x in customers.find():
-            if x['name'] in prods:
-                conn.execute(text(f"UPDATE products SET median_price = {get_prices(x['name'])} WHERE product_name = {x['name']}"))
-            else:
-                conn.execute(text(f"INSERT INTO products (product_name, median_price) VALUES ({x['name']}, {get_prices(x['name'])})"))
+     conn = db.connect()
+     result = conn.execute(text("SELECT product_name FROM products"))
+     prods = []
+     for r in result: 
+         prods.append(r[0])
+     for x in products.find():
+        if x['name'] in prods:
+            conn.execute(text(f"UPDATE products SET median_price = {get_prices(x['name'])} WHERE product_name = {x['name']}"))
+        else:
+            conn.execute(text(f"INSERT INTO products (product_name, median_price) VALUES ({x['name']}, {get_prices(x['name'])})"))
 
 # def db_traverse():
 #     db_l =[]
