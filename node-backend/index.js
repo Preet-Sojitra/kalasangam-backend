@@ -4,6 +4,8 @@ const fileUpload = require("express-fileupload")
 const mongoose = require("mongoose")
 const productRouter = require("./routes/product")
 const analyticsRouter = require("./routes/analytics")
+const cartRouter = require('./routes/cart')
+const orderRouter = require('./routes/order')
 const { sequelize } = require("./db/db")
 const RBACRouter = require("./routes/RBAC")
 require("dotenv").config()
@@ -33,6 +35,8 @@ app.use(
 app.use("/api/v1/product", productRouter)
 app.use("/api/v1", RBACRouter)
 app.use("/api/v1", analyticsRouter)
+app.use("/api/v1",cartRouter)
+app.use("/api/v1",orderRouter)
 
 // Test route
 app.get("/", (req, res) => {

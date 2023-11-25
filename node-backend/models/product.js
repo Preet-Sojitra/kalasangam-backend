@@ -14,7 +14,7 @@ const productSchema = new mongoose.Schema({
     artist:{
         type: mongoose.Types.ObjectId,
         ref:'Artisan'
-    }
+    },
 }, {timestamps: true})
 
 module.exports = mongoose.model('Product',productSchema)
