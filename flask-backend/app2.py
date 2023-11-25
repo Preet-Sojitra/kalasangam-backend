@@ -146,31 +146,14 @@ def send_json_response():
 
 @app.route('/scrape', methods=['GET'])
 def get_amz_prices():
-    args = request.args.to_dict()
+    args = requests.args.to_dict()
     search_term = args['search_term']
-
-    amz_url = url_gen_amz(search_term)
-    logging.info(f'Amazon URL: {amz_url}')
-    
-    driver.get(amz_url)
-    price_string = driver.find_elements(By.CLASS_NAME, 'a-price') 
-    
-    prices = []
-    for price_element in price_string:
-        prices.append(price_element.text)
-
-    flp_url = url_gen_flp(search_term)
-    logging.info(f'Flipkart URL: {flp_url}')
-
-    driver.get(flp_url)
-    price_string = driver.find_elements(By.CLASS_NAME, '_30jeq3') 
-
-    for price_element in price_string:
-        prices.append(price_element.text)
-
-    cleaned_prices = price_cleanup(prices)
-    median_price = cleaned_prices[len(cleaned_prices) // 2]
-
+    median_price = 0
+    with db.connect() as conn:
+        query = text(f'SELECT median_price FROM products where product_name like {search_term}')
+        result = conn.execute(query)
+        for row in result:
+            median_price = row[1]
     return jsonify({'median': median_price})
 
 # @app.route('/protected', methods=['GET'])
