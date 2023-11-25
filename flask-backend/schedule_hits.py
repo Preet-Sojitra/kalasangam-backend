@@ -4,6 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from sqlalchemy import create_engine, text
 from sqlalchemy import MetaData
+import pymongo
 
 db_username = 'root'
 db_password = 'root'
@@ -13,6 +14,10 @@ db_port = '5432'
 
 db_string = f'postgresql://{db_username}:{db_password}@{db_host}:{db_port}/{db_name}'
 db = create_engine(db_string)
+
+client = pymongo.MongoClient('mongodb://localhost:27017/')
+db = client['customersdb']
+customers = db['customers']
 
 options = webdriver.FirefoxOptions()
 options.add_argument("-headless")
@@ -75,16 +80,28 @@ def price_cleanup(price_list):
             pass
     return l_prices
 
-def db_traverse():
-    db_l =[]
-    with db.connect() as conn:
-        result = conn.execute(text("SELECT * FROM products"))
-        for row in result:
-            median_price = get_prices(row[0])
-            conn.execute(text(f"UPDATE products SET median_price = {median_price} WHERE product_name = {row[0]}"))
+def mongo_traverse():
+     with db.connect() as conn:
+        result = conn.execute(text("SELECT product_name FROM products"))
+        prods = []
+        for r in result:
+            prods.append(r[0])
+        for x in customers.find():
+            if x['name'] in prods:
+                conn.execute(text(f"UPDATE products SET median_price = {get_prices(x['name'])} WHERE product_name = {x['name']}"))
+            else:
+                conn.execute(text(f"INSERT INTO products (product_name, median_price) VALUES ({x['name']}, {get_prices(x['name'])})"))
 
-schedule.every(5).minutes.do(db_traverse)
+# def db_traverse():
+#     db_l =[]
+#     with db.connect() as conn:
+#         result = conn.execute(text("SELECT * FROM products"))
+#         for row in result:
+#             median_price = get_prices(row[0])
+#             conn.execute(text(f"UPDATE products SET median_price = {median_price} WHERE product_name = {row[0]}"))
 
+# schedule.every(5).minutes.do(db_traverse)
+schedule.every(2).minutes.do(mongo_traverse)
 while True:
     schedule.run_pending()
     time.sleep(250)
