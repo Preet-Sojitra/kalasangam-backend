@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS analytics (
-    id INTEGER NOT NULL,
+    id SERIAL PRIMARY KEY, 
     artisan_id INTEGER NOT NULL,
     product_id INTEGER NOT NULL,
     year INTEGER NOT NULL,
@@ -14,6 +14,11 @@ CREATE TABLE IF NOT EXISTS analytics (
     september INTEGER DEFAULT 0,
     october INTEGER DEFAULT 0,
     november INTEGER DEFAULT 0,
-    december INTEGER DEFAULT 0,
-    PRIMARY KEY(id)
+    december INTEGER DEFAULT 0
+);
+
+
+CREATE TABLE IF NOT EXISTS products (
+    product_name varchar(255) NOT NULL,
+    median_price INTEGER NOT NULL
 );
