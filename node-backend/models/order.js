@@ -12,6 +12,15 @@ const orderSchema = new mongoose.Schema({
     artisan: {
         type: mongoose.Types.ObjectId,
         ref:'Artisan'
+    },
+    status:{
+        type:String,
+        enum:[
+            'PLACED',
+            'IN TRANSIT',
+            'DELIVERED'
+        ],
+        default: 'PLACED'
     }
 })
 
