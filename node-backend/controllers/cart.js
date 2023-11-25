@@ -38,13 +38,24 @@ exports.addProductToCart = async (req, res) => {
 
 exports.removeProductFromCart = async (req, res) => {
   try {
+    // console.log(req.body)
     const { customer, productId } = req.body
     const cart = await Cart.findOne({ customer })
     if (!cart) {
       return res.status(400).json("cart not found")
     }
-    await cart.product.pop(productId)
-    return res.status(200).json("product added")
+
+    // remove product where product id = productId
+
+    await cart.product.map((id) => {
+      if (id == productId) {
+        cart.product.pull(id)
+      }
+    })
+    await cart.save()
+    return res.status(200).json({
+      message: "product removed",
+    })
   } catch (error) {
     return res.status(500).json(error.message)
   }
