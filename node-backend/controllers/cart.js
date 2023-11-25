@@ -17,7 +17,7 @@ exports.getCart = async (req, res) => {
 exports.addProductToCart = async (req, res) => {
   try {
     const { customer, productId } = req.body
-    console.log(req.body)
+    // console.log(req.body)
     const cart = await Cart.findOne({ customer })
     if (!cart) {
       const newCart = await Cart.create({
@@ -25,7 +25,7 @@ exports.addProductToCart = async (req, res) => {
       })
       await newCart.product.push(productId)
       await newCart.save()
-      console.log(newCart)
+      // console.log(newCart)
       return res.status(200).json("product added")
     }
     await cart.product.push(productId)

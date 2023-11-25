@@ -7,7 +7,7 @@ exports.checkout = async(req,res) => {
        const {products,customer} = req.body 
        // product - id,name,price and qty
         // customer - id
-        const params = {
+       const params = {
             submit_type: 'pay',
             mode: 'payment',
             currency: 'inr',
@@ -37,7 +37,7 @@ exports.checkout = async(req,res) => {
 
         const session = await stripe.checkout.sessions.create(params)
         await products.map(async(product) => {
-            await addOrder(customer,product.id,product.artisan)
+            await addOrder(customer,product.id,product.artisan,product.qty)
         })
         return res.status(200).json(session.url)
 

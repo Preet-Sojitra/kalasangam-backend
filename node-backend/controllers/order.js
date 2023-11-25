@@ -1,13 +1,18 @@
 const Order = require('../models/order')
+const Product = require('../models/product')
 const axios = require('axios')
 
-exports.addOrder = async(customer,product,artisan) => {
+exports.addOrder = async(customer,product,artisan,qty) => {
     try {
         await Order.create({
             customer,
             product,
-            artisan
+            artisan,
+            qty
         }).then(async() => {
+            const product = await Product.findById(product).exec()
+            product.qty -= qty 
+            await product.save()
             await axios.post('http://localhost:5000/create-analytics-entry',{
                 artisan_id: artisan,
                 product_id: product

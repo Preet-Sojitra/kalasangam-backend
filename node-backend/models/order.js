@@ -21,7 +21,8 @@ const orderSchema = new mongoose.Schema({
             'DELIVERED'
         ],
         default: 'PLACED'
-    }
+    },
+    qty:Number
 })
 
 module.exports = mongoose.model('Order',orderSchema)

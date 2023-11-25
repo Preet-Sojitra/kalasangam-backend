@@ -6,11 +6,11 @@ const {addOrder} = require('../controllers/order')
 
 exports.addProduct = async(req,res) => {
     try {
-        const {name,price,description} = req.body 
+        const {name,price,description,qty} = req.body 
         const images = req.files.images
         let urlArr=[]
 
-        if(!name || !price || !description){
+        if(!name || !price || !description || !qty){
             return res.status(400).json({message: "Please enter all details"})
         }
 
@@ -18,13 +18,14 @@ exports.addProduct = async(req,res) => {
             urlArr = await uploadImages(res,req.files.images)
         }
 
-        console.log(urlArr);
+        // console.log(urlArr);
 
         await Product.create({
             name,
             price,
             description,
             images: urlArr,
+            qty
         }).then(() => {
             return res.status(200).json({message: "OK"})
         })
@@ -135,15 +136,6 @@ exports.viewInventory = async(req,res) => {
             return res.status(400).json("No products found")
         }
         return res.status(200).json(products)
-    } catch (error) {
-        return res.status(500).json(error.message)
-    }
-}
-
-exports.buyProduct = async(req,res) => {
-    try {
-        const {customer,product,artisan} = req.body 
-        const order = await addOrder(customer,product,artisan)
     } catch (error) {
         return res.status(500).json(error.message)
     }

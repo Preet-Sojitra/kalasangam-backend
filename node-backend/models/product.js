@@ -15,6 +15,7 @@ const productSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref:'Artisan'
     },
+    qty: Number
 }, {timestamps: true})
 
 module.exports = mongoose.model('Product',productSchema)
