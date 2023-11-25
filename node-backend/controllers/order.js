@@ -32,3 +32,21 @@ exports.getOrders = async(req,res) => {
     }
 }
 
+//updating status
+exports.updateOrder = async(req, res) => {
+    try{
+        let orderData = await Order.findById(req.params.id)
+
+        if (!orderData) return res.status(404).json({message: 'Order not found!'})
+
+        await Order.findByIdAndUpdate(
+            {_id: req.params.id},
+            {$set: orderData},
+            {new: true}
+        ).then(() => {
+            return res.status(200).json({message: "Order Updated!"})
+        })
+    }catch(error){
+        return res.status(500).json(error.message)
+    }
+}
