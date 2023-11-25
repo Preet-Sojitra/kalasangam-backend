@@ -3,3 +3,5 @@ db.pem
 sample.json
 temp.json
 test.py
+.venv
+__pycache__
