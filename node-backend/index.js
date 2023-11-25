@@ -20,6 +20,11 @@ const corsOptions = {
 
 const app = express()
 
+app.get("/payment/success", (req, res) => {
+  console.log(req.body);
+  res.send("Payment successful")
+})
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors(corsOptions))

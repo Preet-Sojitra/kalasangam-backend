@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS analytics (
     id SERIAL PRIMARY KEY, 
-    artisan_id INTEGER NOT NULL,
+    artisian_id INTEGER NOT NULL,
     product_id INTEGER NOT NULL,
     year INTEGER NOT NULL,
     january INTEGER DEFAULT 0,

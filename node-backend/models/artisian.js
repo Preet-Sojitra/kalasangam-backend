@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const artisanSchema = new mongoose.Schema({
+const artisianSchema = new mongoose.Schema({
     name:String,
     age: Number,
     address: String,
@@ -15,4 +15,4 @@ const artisanSchema = new mongoose.Schema({
     totalProfit: Number
 }, {timestamps: true})
 
-module.exports = mongoose.model('Artisan', artisanSchema)
+module.exports = mongoose.model('Artisan', artisianSchema)

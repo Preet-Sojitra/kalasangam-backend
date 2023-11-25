@@ -97,13 +97,14 @@ exports.artisanRegister = async (req, res) => {
 }
 
 exports.userRegister = async (req, res) => {
-  const { name, mobile, password } = req.body
+  const { name, mobile, password, address } = req.body
   if (
     name === undefined ||
     mobile === undefined ||
     mobile.length === 0 ||
     password === undefined ||
-    password.length === 0
+    password.length === 0 ||
+    address.length === 0
   )
     return res.status(400).json({ message: "Bad request" })
   try {
@@ -114,6 +115,7 @@ exports.userRegister = async (req, res) => {
       name,
       mobile,
       password,
+      address
     })
     const salt = await bcrypt.genSalt(10)
     user.password = await bcrypt.hash(password, salt)

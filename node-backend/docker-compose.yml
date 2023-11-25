@@ -5,7 +5,7 @@ services:
     image: postgres:latest
     container_name: postgres_container
     environment: 
-      POSTGRES_DB: artisans
+      POSTGRES_DB: artisians
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
     ports:

@@ -1,9 +1,9 @@
 const Router = require('express').Router()
 
-const {artisanLogin, artisanRegister, userLogin, userRegister} = require('../controllers/RBAC')
+const {artisianLogin, artisianRegister, userLogin, userRegister} = require('../controllers/RBAC')
 
-Router.post("/artisan/login", artisanLogin)
-Router.post("/artisan/register", artisanRegister)
+Router.post("/artisian/login", artisianLogin)
+Router.post("/artisian/register", artisianRegister)
 Router.post("/user/login", userLogin)
 Router.post("/user/register", userRegister)
 

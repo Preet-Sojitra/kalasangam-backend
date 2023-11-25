@@ -1,4 +1,4 @@
-const Artist = require('../models/artisan');
+const Artist = require('../models/artisian');
 const User = require ('../models/user');
 
 exports.isArtist = async (req, res, next) => {
