@@ -1,5 +1,5 @@
 require('dotenv').config()
-const stripe = require('stripe')(process.env.STRIPE_SECRET_TEST_KEY)
+const stripe = require('stripe')(process.env.STRIPE_KEY)
 const {addOrder} = require('../controllers/order')
 
 exports.checkout = async(req,res) => {

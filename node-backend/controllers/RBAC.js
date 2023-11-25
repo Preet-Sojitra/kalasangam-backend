@@ -1,10 +1,10 @@
-const Artisan = require("../models/artisan")
+const Artisan = require("../models/artisian")
 const User = require("../models/user")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 // const translate = require("../utils/translate");
 
-exports.artisanLogin = async (req, res) => {
+exports.artisianLogin = async (req, res) => {
   const { mobile, password } = req.body
   try {
     let artisan = await Artisan.findOne({ mobile })
@@ -60,7 +60,7 @@ exports.userLogin = async (req, res) => {
   }
 }
 
-exports.artisanRegister = async (req, res) => {
+exports.artisianRegister = async (req, res) => {
   const { name, age, address, mobile, password } = req.body
   try {
     let artisan = await Artisan.findOne({ mobile })
