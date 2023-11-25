@@ -36,8 +36,6 @@ exports.getOrders = async (req, res) => {
     return res.status(500).json(error.message)
   }
 }
-<<<<<<< Updated upstream
-
 //updating status
 exports.updateOrder = async(req, res) => {
     try{
@@ -56,5 +54,3 @@ exports.updateOrder = async(req, res) => {
         return res.status(500).json(error.message)
     }
 }
-=======
->>>>>>> Stashed changes
