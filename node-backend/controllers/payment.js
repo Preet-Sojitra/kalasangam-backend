@@ -52,7 +52,7 @@ exports.cod = (req, res)=>{
         products.map(async(product) => {
             await addOrder(customer,product.id,product.artisian,product.qty)
         })
-        return res.status(200).json("Order Placed")
+        return res.status(200).json({"message": "Order Placed"})
     } catch (error) {
         return res.status(500).json(error.message)
     }
