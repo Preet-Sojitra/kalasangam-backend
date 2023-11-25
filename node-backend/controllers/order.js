@@ -20,7 +20,7 @@ exports.addOrder = async(customer,product,artisan,qty) => {
             return 1
         })
     } catch (error) {
-        return res.status(500).json(error.message)
+        throw error;
     }
 }
 
