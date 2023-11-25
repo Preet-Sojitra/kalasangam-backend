@@ -1,8 +1,11 @@
 import json, os, logging, requests, datetime
+from random import randint
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
-from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
+# from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
+
+from sqlalchemy import create_engine, text
 
 from dotenv import load_dotenv
 
@@ -10,7 +13,6 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 import pandas as pd
-import psycopg2
 
 
 load_dotenv()
@@ -18,24 +20,27 @@ load_dotenv()
 class Config:
     JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
     NODE_JS_SERVER = 'http://192.168.140.61:3000'
+    DB_HOST = os.getenv('DB_HOST')
+    DB_PORT = os.getenv('DB_PORT')
+    DB_NAME = os.getenv('DB_NAME')
+    DB_USER = os.getenv('DB_USER')
+    DB_PASSWORD = os.getenv('DB_PASSWORD')
 
 logging.basicConfig(level=logging.INFO)
 
 app = Flask(__name__)
 CORS(app)
 app.config.from_object(Config)
-jwt = JWTManager(app)
+# jwt = JWTManager(app)
 
-DB_HOST = os.getenv('DB_HOST')
-DB_PORT = os.getenv('DB_PORT')
-DB_NAME = os.getenv('DB_NAME')
-DB_USER = os.getenv('DB_USER')
-DB_PASSWORD = os.getenv('DB_PASSWORD')
-
-conn = psycopg2.connect(
-    host=DB_HOST, port=DB_PORT, database=DB_NAME, 
-    user=DB_USER, password=DB_PASSWORD
-)
+db_string = f'postgresql://{Config.DB_USER}:{Config.DB_PASSWORD}@{Config.DB_HOST}:{Config.DB_PORT}/{Config.DB_NAME}'
+db = create_engine(db_string)
+print('DB Connected')
+query = 'SELECT * FROM analytics ORDER BY id DESC LIMIT 1'
+with db.connect() as conn:
+    result = conn.execute(text(query))
+    for (r) in result:
+        print(r[0])
 
 options = webdriver.FirefoxOptions()
 options.add_argument("-headless")
@@ -68,26 +73,30 @@ def price_cleanup(price_list):
     return sorted(cleaned_prices)
 
 
-@app.route('/analytics', methods=['GET'])
-@cross_origin(origins='*')
-@jwt_required
+@app.route('/analytics', methods=['POST'])
+# @cross_origin(origins='*')
+# @jwt_required
 def analytics():
     try:
-        artisan_id = get_jwt_identity()
-        with conn.cursor() as cursor:
-            query = f'SELECT artisan_id, january, february, march, april, may,
+        args = request.args.to_dict()
+        artisan_id = args['artisan_id']
+        with db.connect() as conn:
+            query = text(f'SELECT artisan_id, january, february, march, april, may, \
                             june, july, august, september, october, november, december \
-                     FROM analytics WHERE artisan_id = {artisan_id} \
-                     GROUP BY artisan_id;'
-            cursor.execute(query)
-            result = cursor.fetchone()
-
-            if result is not None:
+                     FROM analytics WHERE artisan_id = {artisan_id}')
+            result = conn.execute(query)
+            r1 = None
+            for (r) in result:
+                r1 = r
+                print(r)
+                break
+            
+            if r1 is not None:
                 monthly_sales = {
-                    'January': result[1], 'February': result[2], 'March': result[3],
-                    'April': result[4], 'May': result[5], 'June': result[6],
-                    'July': result[7], 'August': result[8], 'September': result[9],
-                    'October': result[10], 'November': result[11], 'December': result[12]
+                    'January': r1[1], 'February': r1[2], 'March': r1[3],
+                    'April': r1[4], 'May': r1[5], 'June': r1[6],
+                    'July': r1[7], 'August': r1[8], 'September': r1[9],
+                    'October': r1[10], 'November': r1[11], 'December': r1[12]
                 }
 
                 max_sale_month = max(monthly_sales, key=monthly_sales.get)
@@ -107,7 +116,7 @@ def analytics():
 
     except Exception as e:
         print(f'Error during analytics retrieval: {str(e)}')
-        return jsonify({'error': 'Failed to retrieve analytics'}), 500
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/send', methods=['GET'])
 def send_json_response():
@@ -131,7 +140,7 @@ def send_json_response():
         month = entry['purchase_date'][5:7]
         timeline[month] = timeline.get(month, 0) + 1
     
-    logging.info(f'Products: {products}\nTimeline: {timeline}')
+    print(f'Products: {products}\nTimeline: {timeline}')
 
     return jsonify({'products': products, 'timeline': timeline})
 
@@ -164,29 +173,28 @@ def get_amz_prices():
 
     return jsonify({'median': median_price})
 
-@app.route('/protected', methods=['GET'])
-@jwt_required()
-def protected():
-    current_user = get_jwt_identity()
-    return jsonify(logged_in_as=current_user), 200
+# @app.route('/protected', methods=['GET'])
+# @jwt_required()
+# def protected():
+#     current_user = get_jwt_identity()
+#     return jsonify(logged_in_as=current_user), 200
 
 @app.route('/update-analytics', methods=['POST'])
 @cross_origin(origins='*')
-@jwt_required
 def update_analytics():
     try:
-        data = request.get_json()
-        artisan_id = data.get('artisan_id')
-        product_id = data.get('product_id')
+        args = request.args.to_dict()
+        artisan_id = args['artisan_id']
+        product_id = args['product_id']
 
         if artisan_id is None or product_id is None:
             return jsonify({'error': 'Missing artisan or product id in the request'}), 400
         
         current_month = datetime.datetime.now().strftime('%B').lower()
 
-        with conn.cursor() as cursor:
+        with db.connect() as conn:
             update_query = f'UPDATE analytics SET {current_month} = {current_month} + 1 WHERE artisan_id = {artisan_id} AND product_id = {product_id};'
-            cursor.execute(update_query)
+            conn.execute(update_query)
             conn.commit()
         
         return jsonify({'success': 'analytics updated successfully'}), 200
@@ -197,32 +205,33 @@ def update_analytics():
     
 @app.route('/create-analytics-entry', methods=['POST'])
 @cross_origin(origins='*')
-@jwt_required()
+# @jwt_required()
 def create_analytics_entry():
     try:
-        data = request.get_json()
-        product_id = data.get('product_id')
+        args = request.args.to_dict()
+        artisan_id = args['artisan_id']
+        product_id = args['product_id']
 
         if product_id is None:
             return jsonify({'error': 'Missing product_id in the request'}), 400
 
-        artisan_id = get_jwt_identity()
+        # artisan_id = get_jwt_identity()
 
-        current_month = datetime.now().strftime('%B').lower()  # Get the current month in lowercase
+        current_month = datetime.datetime.now().strftime('%B').lower()  # Get the current month in lowercase
 
-        with conn.cursor() as cursor:
+        with db.connect() as conn:
             # Insert a new entry in the analytics table
-            insert_query = f"INSERT INTO analytics (artisan_id, product_id, year, {current_month}) VALUES ({artisan_id}, {product_id}, EXTRACT(YEAR FROM NOW()), 1) ON CONFLICT (artisan_id, product_id, year) DO UPDATE SET {current_month} = analytics.{current_month} + 1;"
-            cursor.execute(insert_query)
-            conn.commit()
+            insert_query = f"INSERT INTO analytics (id, artisan_id, product_id, year, {current_month}) VALUES ({randint(1000, 200000)}, {artisan_id}, {product_id}, EXTRACT(YEAR FROM NOW()), 1);"
+            conn.execute(text(insert_query))
+            # conn.commit()
 
         return jsonify({'success': 'Analytics entry created successfully'}), 200
 
     except Exception as e:
         print(f'Error during analytics entry creation: {str(e)}')
-        return jsonify({'error': 'Failed to create analytics entry'}), 500
+        return jsonify({'error': str(e)}), 500
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', debug=True)
 
