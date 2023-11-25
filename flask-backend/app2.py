@@ -3,7 +3,6 @@ from random import randint
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
-# from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
 
 from sqlalchemy import create_engine, text
 
@@ -31,7 +30,6 @@ logging.basicConfig(level=logging.INFO)
 app = Flask(__name__)
 CORS(app)
 app.config.from_object(Config)
-# jwt = JWTManager(app)
 
 db_string = f'postgresql://{Config.DB_USER}:{Config.DB_PASSWORD}@{Config.DB_HOST}:{Config.DB_PORT}/{Config.DB_NAME}'
 db = create_engine(db_string)
@@ -53,29 +51,8 @@ def save_to_json(data, filename):
     with open(filename, 'w') as file:
         json.dump(data, file)
 
-def url_gen_amz(search_term):
-    url = 'https://www.amazon.in/s?k='
-    for term in search_term.split('_'):
-        url += term + '+'
-    return url[:-1]
-
-def url_gen_flp(search_term):
-    return f'https://www.flipkart.com/search?q={search_term}'
-
-def price_cleanup(price_list):
-    cleaned_prices = []
-    for price in price_list:
-        price = price[1:].replace(',', '')
-        try:
-            cleaned_prices.append(int(price))
-        except ValueError:
-            pass
-    return sorted(cleaned_prices)
-
-
 @app.route('/analytics', methods=['POST'])
-# @cross_origin(origins='*')
-# @jwt_required
+@cross_origin(origins='*')
 def analytics():
     try:
         args = request.args.to_dict()
@@ -156,12 +133,6 @@ def get_amz_prices():
             median_price = row[1]
     return jsonify({'median': median_price})
 
-# @app.route('/protected', methods=['GET'])
-# @jwt_required()
-# def protected():
-#     current_user = get_jwt_identity()
-#     return jsonify(logged_in_as=current_user), 200
-
 @app.route('/update-analytics', methods=['POST'])
 @cross_origin(origins='*')
 def update_analytics():
@@ -169,6 +140,7 @@ def update_analytics():
         args = request.args.to_dict()
         artisan_id = args['artisan_id']
         product_id = args['product_id']
+        quantity = args['quantity']
 
         if artisan_id is None or product_id is None:
             return jsonify({'error': 'Missing artisan or product id in the request'}), 400
@@ -176,9 +148,8 @@ def update_analytics():
         current_month = datetime.datetime.now().strftime('%B').lower()
 
         with db.connect() as conn:
-            update_query = f'UPDATE analytics SET {current_month} = {current_month} + 1 WHERE artisan_id = {artisan_id} AND product_id = {product_id};'
+            update_query = f'UPDATE analytics SET {current_month} = {current_month} + {quantity} WHERE artisan_id = {artisan_id} AND product_id = {product_id};'
             conn.execute(update_query)
-            conn.commit()
         
         return jsonify({'success': 'analytics updated successfully'}), 200
 
@@ -198,15 +169,11 @@ def create_analytics_entry():
         if product_id is None:
             return jsonify({'error': 'Missing product_id in the request'}), 400
 
-        # artisan_id = get_jwt_identity()
-
-        current_month = datetime.datetime.now().strftime('%B').lower()  # Get the current month in lowercase
+        current_month = datetime.datetime.now().strftime('%B').lower() 
 
         with db.connect() as conn:
-            # Insert a new entry in the analytics table
-            insert_query = f"INSERT INTO analytics (id, artisan_id, product_id, year, {current_month}) VALUES ({randint(1000, 200000)}, {artisan_id}, {product_id}, EXTRACT(YEAR FROM NOW()), 1);"
+            insert_query = f"INSERT INTO analytics (artisan_id, product_id, year, {current_month}) VALUES ({artisan_id}, {product_id}, EXTRACT(YEAR FROM NOW()), 1);"
             conn.execute(text(insert_query))
-            # conn.commit()
 
         return jsonify({'success': 'Analytics entry created successfully'}), 200
 
