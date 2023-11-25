@@ -1,4 +1,5 @@
 const Order = require('../models/order')
+const axios = require('axios')
 
 exports.addOrder = async(customer,product,artisan) => {
     try {
@@ -6,7 +7,11 @@ exports.addOrder = async(customer,product,artisan) => {
             customer,
             product,
             artisan
-        }).then(() => {
+        }).then(async() => {
+            await axios.post('http://localhost:5000/create-analytics-entry',{
+                artisan_id: artisan,
+                product_id: product
+            })
             return 1
         })
     } catch (error) {

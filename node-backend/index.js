@@ -6,6 +6,7 @@ const productRouter = require("./routes/product")
 const analyticsRouter = require("./routes/analytics")
 const cartRouter = require('./routes/cart')
 const orderRouter = require('./routes/order')
+const paymentRouter = require('./routes/payment')
 const { sequelize } = require("./db/db")
 const RBACRouter = require("./routes/RBAC")
 require("dotenv").config()
@@ -37,6 +38,7 @@ app.use("/api/v1", RBACRouter)
 app.use("/api/v1", analyticsRouter)
 app.use("/api/v1",cartRouter)
 app.use("/api/v1",orderRouter)
+app.use("/api/v1",paymentRouter)
 
 // Test route
 app.get("/", (req, res) => {

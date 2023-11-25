@@ -80,8 +80,8 @@ def db_traverse():
     with db.connect() as conn:
         result = conn.execute(text("SELECT * FROM products"))
         for row in result:
-            median_price = get_prices(row[1])
-            conn.execute(text(f"UPDATE products SET median_price = {median_price} WHERE id = {row[0]}"))
+            median_price = get_prices(row[0])
+            conn.execute(text(f"UPDATE products SET median_price = {median_price} WHERE product_name = {row[0]}"))
 
 schedule.every(5).minutes.do(db_traverse)
 

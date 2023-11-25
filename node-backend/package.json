@@ -13,6 +13,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.441.0",
     "@aws-sdk/credential-providers": "^3.441.0",
+    "axios": "^1.6.2",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -23,7 +24,8 @@
     "mongoose": "^8.0.0",
     "morgan": "^1.10.0",
     "pg": "^8.11.3",
-    "sequelize": "^6.34.0"
+    "sequelize": "^6.34.0",
+    "stripe": "^14.5.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
