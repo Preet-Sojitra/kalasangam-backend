@@ -29,7 +29,7 @@ exports.checkout = async(req,res) => {
                   quantity: item.qty
                 }
               }),
-              success_url: `http://localhost:3000/payment/success`,
+              success_url: `http://localhost:5173/success`,
               cancel_url: `http://localhost:3000/payment/canceled`,
             }
 

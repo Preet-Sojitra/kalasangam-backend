@@ -20,14 +20,14 @@ exports.addOrder = async(customer,product,artisan,qty) => {
             return 1
         })
     } catch (error) {
-        return res.status(500).json(error.message)
+        throw error
     }
 }
 
 exports.getOrders = async (req, res) => {
   try {
-    const { artisan } = req.params.id
-    const orders = await Order.find({ artisan })
+    // const { artisan } = req.params.id
+    const orders = await Order.find({}).populate("product")
     if (!orders) {
       return res.status(200).json("No orders found")
     }
