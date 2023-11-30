@@ -1,35 +1,12 @@
-version: '3'
-
+version: '3.8'
 services:
-  postgres:
-    image: postgres:latest
-    container_name: postgres_container
-    environment: 
-      POSTGRES_DB: artisians
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-    ports:
-      - "5432:5432"
-    networks:
-      - mynetwork
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./create_fixtures.sql:/docker-entrypoint-initdb.d/create_fixtures.sql
-
   mongodb:
-    image: mongo:latest
-    container_name: mongodb_container
+    image: mongo
+    container_name: mongodb
+    restart: always
     ports:
-      - "27017:27017"
-    networks:
-      - mynetwork
+      - 27017:27017
     volumes:
       - mongodb_data:/data/db
-
-networks:
-  mynetwork:
-    driver: bridge
-
 volumes:
-  postgres_data:
   mongodb_data:
