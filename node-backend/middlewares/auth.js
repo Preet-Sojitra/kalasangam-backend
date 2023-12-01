@@ -1,53 +1,73 @@
-const Artist = require('../models/artisian');
-const User = require ('../models/user');
+const jwt = require("jsonwebtoken")
+const { StatusCodes } = require("http-status-codes")
 
-exports.isArtist = async (req, res, next) => {
-    const token = req.cookies.accessToken;
-    if (!token) {
-        return res.status(403).json({ message: 'You are not authorized to access this page' });
-    }
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const artist = await Artist.findById(decoded.id);
-        if (!artist) {
-            return res.status(403).json({ message: 'You are not authorized to access this page' });
-        }
-        req._id = decoded.id;
-        next();
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-    }
-    // let email = req.body.email;
-    // let password = req.body.password;
-    // try {
-    //     const artist = await Artist.find({email})
-    //     if (!artist) {
-    //         return res.status(403).json({ message: 'You are not authorized to access this page' });
-    //     }
-    //     const isMatch = await bcrypt.compare(password, artist.password);
-    //     if (!isMatch) {
-    //         return res.status(403).json({ message: 'You are not authorized to access this page' });
-    //     }
-    //     req._id = artist._id;
-    //     next();
+const JWT_SECRET = process.env.JWT_SECRET
+const TOKEN_EXPIRE_TIME = process.env.TOKEN_EXPIRE_TIME
+
+const issueToken = (user) => {
+  const token = jwt.sign(user, JWT_SECRET, { expiresIn: TOKEN_EXPIRE_TIME })
+
+  return token
 }
 
+const authorize = (role) => {
+  if (!Array.isArray(role)) {
+    role = [role]
+  }
 
-exports.isUser = async (req, res)=>{
-    try {
-        const token = req.cookies.accessToken;
-        if (!token) {
-            return res.status(403).json({ message: 'You are not authorized to access this page' });
-        }
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await User.findById(decoded.id);
-        if (!user) {
-            return res.status(403).json({ message: 'You are not authorized to access this page' });
-        }
-        req._id = decoded.id;
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
+  return (req, res, next) => {
+    function sendError(msg) {
+      return res.status(StatusCodes.UNAUTHORIZED).json({
+        msg,
+      })
     }
+
+    try {
+      // Get token from header
+      const token = req.headers["Authorization"] || req.headers["authorization"]
+
+      if (!token) {
+        return sendError("No token, authorization denied")
+      }
+
+      // Check token format
+      if (!token.startsWith("Bearer ")) {
+        return sendError("Invalid token format")
+      }
+
+      // Verify token
+      const tokenValue = token.split(" ")[1]
+
+      jwt.verify(tokenValue, JWT_SECRET, (err, decodedToken) => {
+        if (err) {
+          return sendError("Token invalid or expired")
+        }
+
+        // If role is missing, then send error
+        if (!decodedToken.role) {
+          return sendError("Token invalid or expired")
+        }
+
+        // Check if user has required role
+        const useRole = decodedToken.role
+        if (!role.includes(useRole)) {
+          return sendError("You are not authorized")
+        }
+
+        // If everything is ok, then attach user to req object
+        req.user = decodedToken
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
 }
+
+const ROLES = {
+  USER: ["user"],
+  ARTISAN: ["artisan"],
+  ADMIN: ["admin"],
+  ALL: ["user", "artisan", "admin"],
+}
+
+module.exports = issueToken
