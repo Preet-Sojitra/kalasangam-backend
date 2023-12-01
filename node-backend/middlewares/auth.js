@@ -17,9 +17,7 @@ const authorize = (role) => {
 
   return (req, res, next) => {
     function sendError(msg) {
-      return res.status(StatusCodes.UNAUTHORIZED).json({
-        msg,
-      })
+      return res.status(StatusCodes.UNAUTHORIZED).json({ msg })
     }
 
     try {
@@ -49,13 +47,16 @@ const authorize = (role) => {
         }
 
         // Check if user has required role
-        const useRole = decodedToken.role
-        if (!role.includes(useRole)) {
+        const userRole = decodedToken.role
+        if (!role.includes(userRole)) {
           return sendError("You are not authorized")
         }
 
         // If everything is ok, then attach user to req object
+        console.log(decodedToken)
         req.user = decodedToken
+
+        next()
       })
     } catch (error) {
       next(error)
@@ -70,4 +71,4 @@ const ROLES = {
   ALL: ["user", "artisan", "admin"],
 }
 
-module.exports = issueToken
+module.exports = { issueToken, authorize, ROLES }

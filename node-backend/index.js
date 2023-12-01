@@ -11,6 +11,8 @@ const { sequelize } = require("./db/db")
 const RBACRouter = require("./routes/RBAC")
 const authRouter = require("./routes/auth")
 
+const { authorize, ROLES } = require("./middlewares/auth")
+
 const errorHandlerMiddleware = require("./middlewares/error-handler")
 
 require("dotenv").config()
@@ -42,13 +44,16 @@ app.use(
   })
 )
 
-app.use("/api/v1/product", productRouter)
+app.use("/api/v2/auth", authRouter)
+
+// Only artisan can access these routes
+app.use("/api/v2/product", authorize(ROLES.ARTISAN), productRouter)
+
 app.use("/api/v1", RBACRouter)
 app.use("/api/v1", analyticsRouter)
 app.use("/api/v1", cartRouter)
 app.use("/api/v1", orderRouter)
 app.use("/api/v1", paymentRouter)
-app.use("/api/v1/auth", authRouter)
 
 app.use(errorHandlerMiddleware)
 
