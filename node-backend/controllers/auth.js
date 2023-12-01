@@ -1,6 +1,7 @@
+const { StatusCodes } = require("http-status-codes")
 const Users = require("../models/users")
 
-exports.signup = async (req, res) => {
+exports.signup = async (req, res, next) => {
   try {
     const { name, mobile, password, role } = req.body
     const user = await Users.create({
@@ -9,8 +10,8 @@ exports.signup = async (req, res) => {
       password,
       role,
     })
-    return res.status(201).json(user)
+    return res.status(StatusCodes.CREATED).json(user)
   } catch (error) {
-    return res.status(500).json(error.message)
+    next(error)
   }
 }

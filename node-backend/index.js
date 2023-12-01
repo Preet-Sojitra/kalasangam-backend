@@ -11,6 +11,8 @@ const { sequelize } = require("./db/db")
 const RBACRouter = require("./routes/RBAC")
 const authRouter = require("./routes/auth")
 
+const errorHandlerMiddleware = require("./middlewares/error-handler")
+
 require("dotenv").config()
 cors = require("cors")
 const cookieParser = require("cookie-parser")
@@ -47,6 +49,8 @@ app.use("/api/v1", cartRouter)
 app.use("/api/v1", orderRouter)
 app.use("/api/v1", paymentRouter)
 app.use("/api/v1/auth", authRouter)
+
+app.use(errorHandlerMiddleware)
 
 // Test route
 app.get("/", (req, res) => {
