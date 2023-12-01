@@ -1,8 +1,42 @@
+const { StatusCodes } = require("http-status-codes")
+const { v4: uuidv4 } = require("uuid")
 const Product = require("../models/product")
 
 exports.addProduct = async (req, res, next) => {
   try {
-    res.send(req.user)
+    const { name, price, description, category, quantity } = req.body
+    const artist = req.user.id
+
+    const images = req.files?.images
+    console.log(images)
+
+    if (!images) {
+      const error = new Error("Please upload atleast one image")
+      error.statusCode = StatusCodes.BAD_REQUEST
+      return next(error)
+    }
+
+    // Upload images to MongoDB
+    const uploadedImages = images.map((image) => ({
+      key: uuidv4(),
+      data: image.data,
+    }))
+    // console.log(uploadedImages)
+
+    await Product.create({
+      name,
+      price,
+      description,
+      category,
+      artist,
+      images: uploadedImages,
+      quantity,
+    })
+
+    return res.status(StatusCodes.CREATED).json({
+      message: "Product Uploaded",
+    })
+    // return res.status(StatusCodes.CREATED).json("test")
   } catch (error) {
     next(error)
   }

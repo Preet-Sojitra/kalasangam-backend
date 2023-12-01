@@ -37,12 +37,13 @@ app.use(cors(corsOptions))
 app.use(cookieParser())
 
 app.use(morgan("tiny"))
-app.use(
-  fileUpload({
-    useTempFiles: true,
-    tempFileDir: "/tmp/",
-  })
-)
+app.use(fileUpload())
+// app.use(
+//   fileUpload({
+//     useTempFiles: true,
+//     tempFileDir: "tmp/",
+//   })
+// )
 
 app.use("/api/v2/auth", authRouter)
 

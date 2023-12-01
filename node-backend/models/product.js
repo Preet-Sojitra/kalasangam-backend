@@ -1,21 +1,42 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose")
 
-const productSchema = new mongoose.Schema({
-    name:String,
-    price:Number,
-    description: String,
-    images:[
-        {
-            key:String,
-            url:String
-        }
-    ],
-    model:String,
-    artist:{
-        type: mongoose.Types.ObjectId,
-        ref:'Artisan'
+const productSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, "Please enter product name"],
     },
-    qty: Number
-}, {timestamps: true})
+    price: {
+      type: Number,
+      required: [true, "Please enter product price"],
+      min: [0, "Price cannot be less than 0"],
+    },
+    description: {
+      type: String,
+      required: [true, "Please enter product description"],
+    },
+    images: [
+      {
+        key: String,
+        data: Buffer,
+      },
+    ],
+    model: String, // 3D model url
+    artist: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+    },
+    category: {
+      type: String,
+      default: "Uncategorized",
+    },
+    quantity: {
+      type: Number,
+      required: [true, "Please enter product quantity"],
+      min: [0, "Quantity cannot be less than 0"],
+    },
+  },
+  { timestamps: true }
+)
 
-module.exports = mongoose.model('Product',productSchema)
+module.exports = mongoose.model("Product", productSchema)

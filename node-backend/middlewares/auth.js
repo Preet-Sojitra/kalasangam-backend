@@ -53,7 +53,7 @@ const authorize = (role) => {
         }
 
         // If everything is ok, then attach user to req object
-        console.log(decodedToken)
+        // console.log(decodedToken)
         req.user = decodedToken
 
         next()
