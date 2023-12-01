@@ -1,7 +1,7 @@
 const { StatusCodes } = require("http-status-codes")
 const bcrypt = require("bcryptjs")
 const Users = require("../models/users")
-const issueToken = require("../middlewares/auth")
+const { issueToken } = require("../middlewares/auth")
 
 exports.signup = async (req, res, next) => {
   try {
@@ -17,7 +17,12 @@ exports.signup = async (req, res, next) => {
       role,
     })
 
-    const token = issueToken({ id: user._id, role: user.role })
+    const token = issueToken({
+      id: user._id,
+      role: user.role,
+      name: user.name,
+      mobile: user.mobile,
+    })
 
     return res.status(StatusCodes.CREATED).json({
       msg: "User created successfully",
@@ -52,7 +57,12 @@ exports.login = async (req, res, next) => {
     }
 
     // If all ok, then send token
-    const token = issueToken({ id: user._id, role: user.role })
+    const token = issueToken({
+      id: user._id,
+      role: user.role,
+      name: user.name,
+      mobile: user.mobile,
+    })
 
     return res.status(StatusCodes.OK).json({
       msg: "User logged in successfully",
