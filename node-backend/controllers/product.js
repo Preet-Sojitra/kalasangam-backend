@@ -1,13 +1,20 @@
 const { StatusCodes } = require("http-status-codes")
-const { v4: uuidv4 } = require("uuid")
+// const { v4: uuidv4 } = require("uuid")
 const Product = require("../models/product")
+const cloudinary = require("cloudinary").v2
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+})
 
 exports.addProduct = async (req, res, next) => {
   try {
     const { name, price, description, category, quantity } = req.body
     const artist = req.user.id
 
-    const images = req.files?.images
+    let images = req.files?.images
     console.log(images)
 
     if (!images) {
@@ -16,12 +23,39 @@ exports.addProduct = async (req, res, next) => {
       return next(error)
     }
 
-    // Upload images to MongoDB
-    const uploadedImages = images.map((image) => ({
-      key: uuidv4(),
-      data: image.data,
-    }))
-    // console.log(uploadedImages)
+    // If single image is uploaded, convert it to an array
+    if (!Array.isArray(images)) {
+      images = [images]
+    }
+
+    const uploadedImages = await Promise.all(
+      images.map(
+        (image) =>
+          new Promise((resolve, reject) => {
+            cloudinary.uploader
+              .upload_stream(
+                {
+                  resource_type: "auto",
+                  folder: "kalasangam",
+
+                  // commented because it takes relatively more time to upload
+                  // resource_type: "image",
+                  // format: "png",
+                },
+                (error, result) => {
+                  if (error) {
+                    console.log(error)
+                    reject(error) // Reject the promise in case of an error
+                  } else {
+                    // console.log(result)
+                    resolve(result) // Resolve the promise with the result
+                  }
+                }
+              )
+              .end(image.data)
+          })
+      )
+    )
 
     await Product.create({
       name,
@@ -128,15 +162,17 @@ exports.getOneProduct = async (req, res) => {
   }
 }
 
-//endpoint to get all products in inventory
-exports.getAllProducts = async (req, res) => {
+//endpoint to get all products from db
+exports.getAllProducts = async (req, res, next) => {
   try {
     let productsData = await Product.find()
 
     //returning all products data
-    return res.status(200).json({ message: "Products found!", productsData })
+    return res
+      .status(StatusCodes.OK)
+      .json({ message: "Products found!", productsData })
   } catch (error) {
-    return res.status(500).json(error)
+    next(error)
   }
 }
 

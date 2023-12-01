@@ -2,6 +2,7 @@ const express = require("express")
 const morgan = require("morgan")
 const fileUpload = require("express-fileupload")
 const mongoose = require("mongoose")
+const productsRouter = require("./routes/products")
 const productRouter = require("./routes/product")
 const analyticsRouter = require("./routes/analytics")
 const cartRouter = require("./routes/cart")
@@ -48,7 +49,8 @@ app.use(fileUpload())
 app.use("/api/v2/auth", authRouter)
 
 // Only artisan can access these routes
-app.use("/api/v2/product", authorize(ROLES.ARTISAN), productRouter)
+app.use("/api/v2/artisan/product", authorize(ROLES.ARTISAN), productRouter)
+app.use("/api/v2/products", productsRouter)
 
 app.use("/api/v1", RBACRouter)
 app.use("/api/v1", analyticsRouter)

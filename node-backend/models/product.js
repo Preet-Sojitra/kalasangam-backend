@@ -17,8 +17,8 @@ const productSchema = new mongoose.Schema(
     },
     images: [
       {
-        key: String,
-        data: Buffer,
+        type: mongoose.Schema.Types.Mixed,
+        required: [true, "Please upload atleast one image"],
       },
     ],
     model: String, // 3D model url
