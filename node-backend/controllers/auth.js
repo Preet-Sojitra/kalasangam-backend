@@ -7,6 +7,20 @@ exports.signup = async (req, res, next) => {
   try {
     const { name, mobile, password, role } = req.body
 
+    // First check if the user exists
+    const userExists = await Users.findOne({
+      mobile,
+    })
+
+    // If user exists, and has password field, then user has already signed up with password
+    if (userExists && userExists.password) {
+      const error = new Error(
+        "User already exists. Please login with password instead."
+      )
+      error.statusCode = StatusCodes.BAD_REQUEST
+      return next(error)
+    }
+
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
 
@@ -44,6 +58,15 @@ exports.login = async (req, res, next) => {
     if (!user) {
       const error = new Error("User does not exist")
       error.statusCode = StatusCodes.NOT_FOUND
+      return next(error)
+    }
+
+    // If user exists, but has not password field, then he has signed up with OTP
+    if (!user.password) {
+      const error = new Error(
+        "You have signed up with OTP. Please login with OTP instead."
+      )
+      error.statusCode = StatusCodes.BAD_REQUEST
       return next(error)
     }
 

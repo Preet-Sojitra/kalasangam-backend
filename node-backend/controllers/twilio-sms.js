@@ -13,6 +13,17 @@ exports.sendOTP = async (req, res, next) => {
   const { countryCode, mobile } = req.body
 
   try {
+    // First check if the user exists
+    const user = await Users.findOne({
+      mobile,
+    })
+
+    if (user) {
+      const error = new Error("User already exists. Please login instead.")
+      error.statusCode = StatusCodes.BAD_REQUEST
+      return next(error)
+    }
+
     const otpResponse = await client.verify.v2
       .services(TWILIO_SERVICE_SID)
       .verifications.create({
@@ -32,6 +43,20 @@ exports.sendOTP = async (req, res, next) => {
 exports.verifyOTP = async (req, res, next) => {
   try {
     const { countryCode, mobile, otp, name, role } = req.body
+
+    // First check if the user exists
+    const userExists = await Users.findOne({
+      mobile,
+    })
+
+    // If user exists, and has password field, then user has already signed up with password
+    if (userExists && userExists.password) {
+      const error = new Error(
+        "User already exists. Please login with password instead."
+      )
+      error.statusCode = StatusCodes.BAD_REQUEST
+      return next(error)
+    }
 
     const verifiedResponse = await client.verify.v2
       .services(TWILIO_SERVICE_SID)
