@@ -27,6 +27,7 @@ exports.signup = async (req, res, next) => {
     return res.status(StatusCodes.CREATED).json({
       msg: "User created successfully",
       accessToken: token,
+      role: user.role,
     })
   } catch (error) {
     next(error)
@@ -67,6 +68,7 @@ exports.login = async (req, res, next) => {
     return res.status(StatusCodes.OK).json({
       msg: "User logged in successfully",
       accessToken: token,
+      role: user.role,
     })
   } catch (error) {
     next(error)
