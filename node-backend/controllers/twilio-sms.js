@@ -72,11 +72,16 @@ exports.verifyOTP = async (req, res, next) => {
     }
 
     // If OTP is verified, create a new user
-    const user = await Users.create({
-      name,
-      mobile,
-      role,
-    })
+
+    // If user not exists, create a new user
+    let user
+    if (!userExists) {
+      user = await Users.create({
+        name,
+        mobile,
+        role,
+      })
+    }
 
     const token = issueToken({
       id: user._id,
