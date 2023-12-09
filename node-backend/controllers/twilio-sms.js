@@ -19,9 +19,14 @@ exports.sendOTP = async (req, res, next) => {
     })
 
     if (user) {
-      const error = new Error("User already exists. Please login instead.")
-      error.statusCode = StatusCodes.BAD_REQUEST
-      return next(error)
+      // Check if user has password field, then user has already signed up with password
+      if (user.password) {
+        const error = new Error(
+          "User has already signed up with password. Please login with password instead."
+        )
+        error.statusCode = StatusCodes.BAD_REQUEST
+        return next(error)
+      }
     }
 
     const otpResponse = await client.verify.v2
@@ -81,6 +86,8 @@ exports.verifyOTP = async (req, res, next) => {
         mobile,
         role,
       })
+    } else {
+      user = userExists
     }
 
     const token = issueToken({
