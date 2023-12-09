@@ -77,10 +77,15 @@ exports.googleLoginCallback = async (req, res, next) => {
       googleId: user.googleId,
     })
 
-    return res.status(StatusCodes.OK).json({
-      msg: "User logged in successfully",
-      accessToken: token,
-    })
+    res.cookie("accessToken", token)
+    res.cookie("role", user.role)
+
+    return res.redirect("http://localhost:5173/home")
+
+    // return res.status(StatusCodes.OK).json({
+    //   msg: "User logged in successfully",
+    //   accessToken: token,
+    // })
   }
   // Else, we will create a new user and then return the user with a access token
   else {
