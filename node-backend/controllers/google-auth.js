@@ -6,6 +6,8 @@ const { issueToken } = require("../middlewares/auth")
 require("dotenv").config()
 const axios = require("axios")
 
+// const SERVER_ROOT_URI = "http://localhost:5173/auth/login"
+// const redirectURI = ""
 const SERVER_ROOT_URI = process.env.SERVER_ROOT_URI
 const redirectURI = "auth/google/login/callback"
 
@@ -30,6 +32,8 @@ exports.googleLoginUrl = async (req, res, next) => {
 exports.googleLoginCallback = async (req, res, next) => {
   // Get authorization code from query string
   //   console.log(req.query)
+
+  // const { code, who } = req.body
   const { code } = req.query
   let { state } = req.query
 
@@ -38,6 +42,7 @@ exports.googleLoginCallback = async (req, res, next) => {
     clientId: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     redirectUri: `${SERVER_ROOT_URI}/${redirectURI}`,
+    // redirectUri: `http://localhost:5173/auth/login`,
   })
 
   // Fetch user info
@@ -85,6 +90,7 @@ exports.googleLoginCallback = async (req, res, next) => {
         googleId: googleUser.id,
         email: googleUser.email,
         role: state.who === "artisan" ? "artisan" : "customer",
+        // role: who === "artisan" ? "artisan" : "customer",
       })
 
       const token = issueToken({
@@ -94,11 +100,17 @@ exports.googleLoginCallback = async (req, res, next) => {
         googleId: newUser.googleId,
       })
 
-      return res.status(StatusCodes.CREATED).json({
-        msg: "User created successfully",
-        accessToken: token,
-        role: newUser.role,
-      })
+      // Only way to send data to the frontend is by using cookies
+      res.cookie("accessToken", token)
+      res.cookie("role", newUser.role)
+
+      return res.redirect("http://localhost:5173/home")
+
+      // return res.status(StatusCodes.CREATED).json({
+      //   msg: "User created successfully",
+      //   accessToken: token,
+      //   role: newUser.role,
+      // })
     } catch (error) {
       console.log(error)
       next(error)

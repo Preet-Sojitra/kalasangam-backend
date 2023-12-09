@@ -16,6 +16,7 @@ router.post("/verify-otp", verifyOTP)
 router.get("/google/login/url", googleLoginUrl)
 
 // This is the route that Google will redirect to after login. Callback because Google will call this route back.
+// router.post("/google/login/callback", googleLoginCallback)
 router.get("/google/login/callback", googleLoginCallback)
 
 module.exports = router

@@ -32,6 +32,7 @@ function getGoogleAuthUrl(SERVER_ROOT_URI, redirectURI, GOOGLE_CLIENT_ID, who) {
   const rootUrl = "https://accounts.google.com/o/oauth2/v2/auth"
   const options = {
     redirect_uri: `${SERVER_ROOT_URI}/${redirectURI}`,
+    // redirect_uri: `http://localhost:5173/auth/login`,
     client_id: GOOGLE_CLIENT_ID,
     access_type: "offline",
     response_type: "code",
