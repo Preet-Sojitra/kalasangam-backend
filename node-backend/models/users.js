@@ -5,11 +5,10 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
     },
-
     mobile: {
       type: String,
-      required: true,
-      unique: true,
+      // required: true,
+      // unique: true,
       maxlength: 10,
       minlength: 10,
     },
@@ -24,6 +23,17 @@ const userSchema = new mongoose.Schema(
     },
     isVerified: {
       type: Boolean,
+    },
+    avatar: String,
+
+    // This will be used to uniquely identify the user in the database, as when user signs up with Google, we will not have their mobile number
+    googleId: {
+      type: String,
+      unique: true,
+    },
+    email: {
+      type: String,
+      unique: true,
     },
   },
   { timestamps: true }
