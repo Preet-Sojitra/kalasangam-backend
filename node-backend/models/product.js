@@ -27,8 +27,7 @@ const productSchema = new mongoose.Schema(
       ref: "User",
     },
     category: {
-      type: String,
-      default: "Uncategorized",
+      type: mongoose.Types.ObjectId,
     },
     quantity: {
       type: Number,

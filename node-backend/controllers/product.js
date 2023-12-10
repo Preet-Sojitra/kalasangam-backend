@@ -1,6 +1,7 @@
 const { StatusCodes } = require("http-status-codes")
 // const { v4: uuidv4 } = require("uuid")
 const Product = require("../models/product")
+const Category = require("../models/categories")
 const cloudinary = require("cloudinary").v2
 require("dotenv").config()
 
@@ -58,11 +59,25 @@ exports.addProduct = async (req, res, next) => {
       )
     )
 
+    // Check if category exists
+    const categoryExists = await Category.findOne({
+      name: category || "Uncategorized",
+    })
+
+    // If category does not exist, create a new category
+    let createdCategory
+    if (!categoryExists) {
+      createdCategory = await Category.create({
+        name: category || "Uncategorized",
+      })
+    }
+
+    // Create the product
     await Product.create({
       name,
       price,
       description,
-      category,
+      category: createdCategory?._id || categoryExists._id,
       artist,
       images: uploadedImages,
       quantity,
