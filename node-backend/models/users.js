@@ -38,6 +38,13 @@ const userSchema = new mongoose.Schema(
       unique: true,
       sparse: true,
     },
+    address: {
+      street: String,
+      city: String,
+      state: String,
+      country: String,
+      pincode: String,
+    },
   },
   { timestamps: true }
 )
@@ -49,6 +56,12 @@ userSchema.pre("save", function (next) {
     // If user is artisan, then add the key "isVerified" to the userSchema
     this.isVerified = false
   }
+  next()
+})
+
+// update the version number if the document is updated
+userSchema.pre("updateOne", function (next) {
+  this.updateOne({}, { $inc: { __v: 1 } })
   next()
 })
 
