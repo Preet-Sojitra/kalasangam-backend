@@ -11,6 +11,7 @@ const paymentRouter = require("./routes/payment")
 const { sequelize } = require("./db/db")
 const RBACRouter = require("./routes/RBAC")
 const authRouter = require("./routes/auth")
+const profileRouter = require("./routes/profile")
 
 const { authorize, ROLES } = require("./middlewares/auth")
 
@@ -51,6 +52,8 @@ app.use("/api/v2/auth", authRouter)
 // Only artisan can access these routes
 app.use("/api/v2/artisan/product", authorize(ROLES.ARTISAN), productRouter)
 app.use("/api/v2/products", productsRouter)
+// app.use("/api/v2/profile", authorize(ROLES.USER), profileRouter)
+app.use("/api/v2/profile", authorize(ROLES.ALL), profileRouter)
 
 app.use("/api/v1", RBACRouter)
 app.use("/api/v1", analyticsRouter)

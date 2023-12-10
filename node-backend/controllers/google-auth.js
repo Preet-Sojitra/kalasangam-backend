@@ -61,6 +61,8 @@ exports.googleLoginCallback = async (req, res, next) => {
       next(error)
     })
 
+  // console.log(googleUser)
+
   state = JSON.parse(state)
   console.log(state)
 
@@ -96,6 +98,7 @@ exports.googleLoginCallback = async (req, res, next) => {
         email: googleUser.email,
         role: state.who === "artisan" ? "artisan" : "customer",
         // role: who === "artisan" ? "artisan" : "customer",
+        avatar: googleUser.picture,
       })
 
       const token = issueToken({

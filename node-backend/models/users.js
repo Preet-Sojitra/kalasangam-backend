@@ -8,9 +8,10 @@ const userSchema = new mongoose.Schema(
     mobile: {
       type: String,
       // required: true,
-      // unique: true,
+      unique: true,
       maxlength: 10,
       minlength: 10,
+      sparse: true,
     },
     password: {
       type: String,
@@ -30,14 +31,18 @@ const userSchema = new mongoose.Schema(
     googleId: {
       type: String,
       unique: true,
+      sparse: true,
     },
     email: {
       type: String,
       unique: true,
+      sparse: true,
     },
   },
   { timestamps: true }
 )
+
+// userSchema.index({ mobile: 1, email: 1 }, { unique: true })
 
 userSchema.pre("save", function (next) {
   if (this.role === "artisan") {

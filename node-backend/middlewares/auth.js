@@ -65,10 +65,10 @@ const authorize = (role) => {
 }
 
 const ROLES = {
-  USER: ["user"],
+  USER: ["customer"],
   ARTISAN: ["artisan"],
   ADMIN: ["admin"],
-  ALL: ["user", "artisan", "admin"],
+  ALL: ["customer", "artisan", "admin"],
 }
 
 module.exports = { issueToken, authorize, ROLES }
