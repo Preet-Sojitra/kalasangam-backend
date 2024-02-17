@@ -204,3 +204,43 @@ exports.viewInventory = async (req, res) => {
     return res.status(500).json(error.message)
   }
 }
+
+exports.getProductCategories = async (req, res) => {
+  try {
+    const categories = await Category.find()
+    return res.status(StatusCodes.OK).json(categories)
+  } catch (error) {
+    console.log(error)
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error.message)
+  }
+}
+
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns Array of products based on category
+ */
+exports.getProductsByCategory = async (req, res, next) => {
+  try {
+    const category = req.query.category
+
+    // category will be name and not id. So, need to find the id of the category
+    const categoryExists = await Category.findOne({ name: category })
+    // console.log(categoryExists)
+
+    if (!categoryExists) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        message: "Category not found",
+      })
+    }
+
+    const products = await Product.find({ category: categoryExists._id })
+
+    return res.status(StatusCodes.OK).json(products)
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+}
