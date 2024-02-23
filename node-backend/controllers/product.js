@@ -162,19 +162,32 @@ exports.deleteProduct = async (req, res) => {
   }
 }
 
-//endpoint to get one product --> pass obj id in param
-exports.getOneProduct = async (req, res) => {
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns Product object based on the product id
+ */
+exports.getOneProduct = async (req, res, next) => {
   try {
-    let productData = await Product.findById(req.params.id)
+    const productId = req.query.id
+    const productData = await Product.findById(productId)
 
     //in case product not found
-    if (!productData)
-      return res.status(404).json({ message: "Product Not Found!" })
+    if (!productData) {
+      error = new Error("Product not found with the given id")
+      error.statusCode = StatusCodes.NOT_FOUND
+      return next(error)
+    }
 
     //in case product is found
-    return res.status(200).json({ message: "Product found!", productData })
+    return res.status(StatusCodes.OK).json({
+      message: "Product found!",
+      productData,
+    })
   } catch (error) {
-    return res.status(500).json(error)
+    return next(error)
   }
 }
 

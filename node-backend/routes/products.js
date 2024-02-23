@@ -9,7 +9,7 @@ const { search } = require("../utils/customer")
 
 const router = express.Router()
 
-router.get("/one/:id", getOneProduct)
+router.get("/one", getOneProduct)
 router.get("/all", getAllProducts)
 router.get("/search", search)
 router.get("/categories/all", getProductCategories)
