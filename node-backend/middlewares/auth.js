@@ -69,6 +69,7 @@ const ROLES = {
   ARTISAN: ["artisan"],
   ADMIN: ["admin"],
   ALL: ["customer", "artisan", "admin"],
+  BOTH: ["customer", "artisan"],
 }
 
 module.exports = { issueToken, authorize, ROLES }

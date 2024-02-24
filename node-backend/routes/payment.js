@@ -1,9 +1,9 @@
-const express = require('express')
-const {checkout,cod} = require('../controllers/payment')
+const express = require("express")
+const { checkout, cod } = require("../controllers/payment")
 
 const router = express.Router()
 
-router.post("/checkout",checkout)
-router.post("/cod",cod)
+router.post("/online", checkout)
+router.post("/cod", cod)
 
 module.exports = router
