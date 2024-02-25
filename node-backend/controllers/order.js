@@ -76,6 +76,26 @@ exports.addOrder = async (
   // }
 }
 
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns Orders placed by the user
+ */
+exports.getMyOrders = async (req, res, next) => {
+  try {
+    // console.log(req.user)
+    const userId = req.user.id
+    const orders = await Order.find({ customer: userId }).populate("product")
+
+    return res.status(200).json(orders)
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+}
+
 exports.getOrders = async (req, res) => {
   try {
     // const { artisan } = req.params.id

@@ -55,6 +55,7 @@ app.use("/api/v2/products", productsRouter)
 // app.use("/api/v2/profile", authorize(ROLES.USER), profileRouter)
 app.use("/api/v2/profile", authorize(ROLES.ALL), profileRouter)
 app.use("/api/v2/payment/checkout", authorize(ROLES.BOTH), paymentRouter)
+app.use("/api/v2/orders", authorize(ROLES.USER), orderRouter)
 
 app.use("/api/v1", RBACRouter)
 app.use("/api/v1", analyticsRouter)
