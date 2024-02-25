@@ -62,9 +62,15 @@ exports.login = async (req, res, next) => {
     }
 
     // If user exists, but has not password field, then he has signed up with OTP
-    if (!user.password) {
+    if (!user.password && !user.googleId) {
       const error = new Error(
         "You have signed up with OTP. Please login with OTP instead."
+      )
+      error.statusCode = StatusCodes.BAD_REQUEST
+      return next(error)
+    } else if (!user.password && user.googleId) {
+      const error = new Error(
+        "You have signed up with Google. Please login with Google instead."
       )
       error.statusCode = StatusCodes.BAD_REQUEST
       return next(error)
