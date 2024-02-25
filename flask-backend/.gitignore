@@ -1,7 +1,0 @@
-db.pem
-.env
-sample.json
-temp.json
-test.py
-.venv
-__pycache__
