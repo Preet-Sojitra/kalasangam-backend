@@ -1,3 +1,4 @@
+const { StatusCodes } = require("http-status-codes")
 const Order = require("../models/order")
 const Product = require("../models/product")
 const axios = require("axios")
@@ -96,18 +97,49 @@ exports.getMyOrders = async (req, res, next) => {
   }
 }
 
-exports.getOrders = async (req, res) => {
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns Return all the orders placed for the artisan
+ */
+exports.getArtisanOrders = async (req, res, next) => {
   try {
-    // const { artisan } = req.params.id
-    const orders = await Order.find({}).populate("product")
+    // console.log(req.user)
+    const artisanId = req.user.id
+
+    const orders = await Order.find({ artisan: artisanId }).populate("product")
+
     if (!orders) {
-      return res.status(200).json("No orders found")
+      return res.status(StatusCodes.OK).json("No orders found")
     }
-    return res.status(200).json(orders)
+
+    return res.status(StatusCodes.OK).json(orders)
   } catch (error) {
-    return res.status(500).json(error.message)
+    console.log(error)
+    next(error)
   }
 }
+
+exports.getOrder = async (req, res, next) => {
+  try {
+    const orderId = req.params.id
+    console.log(orderId)
+
+    const order = await Order.findById(orderId).populate("product")
+
+    if (!order) {
+      return res.status(StatusCodes.OK).json("No orders found")
+    }
+
+    return res.status(StatusCodes.OK).json(order)
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+}
+
 //updating status
 exports.updateOrder = async (req, res) => {
   try {
