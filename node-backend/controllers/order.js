@@ -140,21 +140,49 @@ exports.getOrder = async (req, res, next) => {
   }
 }
 
-//updating status
-exports.updateOrder = async (req, res) => {
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns Update the status of the order
+ */
+exports.updateOrder = async (req, res, next) => {
   try {
-    let orderData = await Order.findById(req.params.id)
+    const orderId = req.params.id
 
-    if (!orderData) return res.status(404).json({ message: "Order not found!" })
+    let orderData = await Order.findById(orderId)
 
-    await Order.findByIdAndUpdate(
-      { _id: req.params.id },
-      { $set: orderData },
-      { new: true }
-    ).then(() => {
-      return res.status(200).json({ message: "Order Updated!" })
-    })
+    if (!orderData)
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ message: "Order not found!" })
+
+    if (!req.body.status || req.body.status === "")
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ message: "Status is required!" })
+
+    if (
+      req.body.status.toUpperCase() !== "PLACED" &&
+      req.body.status.toUpperCase() !== "IN TRANSIT" &&
+      req.body.status.toUpperCase() !== "OUT FOR DELIVERY" &&
+      req.body.status.toUpperCase() !== "DELIVERED"
+    )
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ message: "Invalid status!" })
+
+    await Order.updateOne(
+      { _id: orderId },
+      { $set: { status: req.body.status.toUpperCase() } }
+    )
+
+    return res
+      .status(StatusCodes.OK)
+      .json({ message: "Order status updated successfully!" })
   } catch (error) {
-    return res.status(500).json(error.message)
+    console.log(error)
+    next(error)
   }
 }

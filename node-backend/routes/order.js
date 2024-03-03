@@ -13,6 +13,7 @@ const router = express.Router()
 router.get("/myorders", authorize(ROLES.USER), getMyOrders)
 router.get("/artisan/allorders", authorize(ROLES.ARTISAN), getArtisanOrders)
 router.get("/:id", getOrder)
+router.put("/update/:id", authorize(ROLES.ARTISAN), updateOrder)
 
 // router.get("/order/:id",getOrders)
 // router.put("/update/order/:id", updateOrder)
