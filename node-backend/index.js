@@ -12,6 +12,7 @@ const { sequelize } = require("./db/db")
 const RBACRouter = require("./routes/RBAC")
 const authRouter = require("./routes/auth")
 const profileRouter = require("./routes/profile")
+const seedRouter = require("./routes/seed")
 
 const { authorize, ROLES } = require("./middlewares/auth")
 
@@ -65,14 +66,17 @@ app.use("/api/v1", paymentRouter)
 
 app.use(errorHandlerMiddleware)
 
-// Test route
-app.get("/", (req, res) => {
-  res.send("Testing, 123")
-})
-
 app.get("/payment/success", (req, res) => {
   res.send("Payment successful")
 })
+
+// Test route
+// ! NEVER REMVOE THIS ROUTE. IT IS USED FOR TESTING WHETHER THE SERVER IS RUNNING. IT IS ALSO USED WHILE SEEDING THE DATABASE in seed.sh file
+app.get("/", (req, res) => {
+  res.send("Testing, 123")
+})
+// This route is only for seeding the "Orders" table
+app.use("/api/v2/seed", authorize(ROLES.USER), seedRouter) // NOT MEANT FOR PRODUCTION
 
 mongoose
   .connect(process.env.URI)

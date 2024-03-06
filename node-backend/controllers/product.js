@@ -17,7 +17,7 @@ exports.addProduct = async (req, res, next) => {
     const artist = req.user.id
 
     let images = req.files?.images
-    console.log(images)
+    // console.log(images)
 
     if (!images) {
       const error = new Error("Please upload atleast one image")
@@ -73,7 +73,7 @@ exports.addProduct = async (req, res, next) => {
     }
 
     // Create the product
-    await Product.create({
+    const product = await Product.create({
       name,
       price,
       description,
@@ -83,9 +83,18 @@ exports.addProduct = async (req, res, next) => {
       quantity,
     })
 
+    // return product id
     return res.status(StatusCodes.CREATED).json({
       message: "Product Uploaded",
+      // These details are required for seeding the database.
+      productId: product._id,
+      price: product.price,
+      quantity: product.quantity,
     })
+
+    // return res.status(StatusCodes.CREATED).json({
+    //   message: "Product Uploaded",
+    // })
     // return res.status(StatusCodes.CREATED).json("test")
   } catch (error) {
     next(error)
