@@ -50,6 +50,23 @@ docker-compose up
 npm run dev
 ```
 
+5. Open new terminal tab and seed the database using the following command:
+
+> But before running the following command, make sure that you have added Cloudinary credentials in the `.env` file. You can get the credentials by signing up on [Cloudinary](https://cloudinary.com/). It is most crucial part of the project as it is used to store the images. 
+
+```bash
+chmod +x seed.sh && ./seed.sh
+```
+
+> If file not found error occurs, then make sure you are in the root directory of the backend repository and then run the above command.
+>
+> Please note that the above command is for Linux and Mac users only. For Windows users, you need to run the following command in the git terminal:
+
+```bash
+sh seed.sh
+```
+
+
 > NOTE: You need to have Node.js and docker installed on your machine to run the above commands.
 
  Now, head over to the [frontend repository](https://github.com/Preet-Sojitra/Kalasangam) and clone it (if you haven't already).
