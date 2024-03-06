@@ -1,0 +1,181 @@
+[
+  {
+    "name": "Eames Lounge Chair",
+    "category": "Furniture",
+    "price": 2195,
+    "description": "The Eames Lounge Chair is a classic icon of mid-century modern design. Its combination of luxurious materials and comfortable, ergonomic design make it the perfect addition to any living space.",
+    "availableQuantity": 25,
+    "images": "https://images.unsplash.com/photo-1501045661006-fcebe0257c3f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8ZW1hZXMlMjBsb25nJTIwY2hhaXJ8ZW58MHwwfDB8fHww",
+    "savedImageFile": "EamesLoungeChair"
+  },
+  {
+    "name": "Samsung 65-Inch QLED TV",
+    "category": "Electronics",
+    "price": 1599,
+    "description": "Experience stunning visuals and immersive sound with the Samsung 65-Inch QLED TV. With its Quantum Dot technology and Ambient Mode+, this TV delivers unparalleled picture quality and blends seamlessly into any environment.",
+    "availableQuantity": 15,
+    "images": "https://images.unsplash.com/photo-1593784991095-a205069470b6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c2Ftc3VuZyUyMHFsZXR8ZW58MHwwfDB8fHww",
+    "savedImageFile": "Samsung65InchQLEDTV"
+  },
+  {
+    "name": "KitchenAid Stand Mixer",
+    "category": "Home Appliances",
+    "price": 349,
+    "description": "The KitchenAid Stand Mixer is a must-have for any home chef. With its powerful motor and versatile attachments, it makes mixing, kneading, and whipping a breeze. Plus, its timeless design adds a touch of elegance to any kitchen.",
+    "availableQuantity": 40,
+    "images": "https://images.unsplash.com/photo-1512914890251-2f96a9b0bbe2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGtpdGNoZW4lMjBhaWQlMjBzdGFuZCUyMG1peGVyfGVufDB8MHwwfHx8MA%3D%3D",
+    "savedImageFile": "KitchenAidStandMixer"
+  },
+  {
+    "name": "Nike Air Max 270",
+    "category": "Footwear",
+    "price": 150,
+    "description": "Step up your sneaker game with the Nike Air Max 270. Featuring a bold design and responsive cushioning, these shoes offer comfort and style with every step.",
+    "availableQuantity": 50,
+    "images": "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fG5pa2UlMjBhaXIlMjBtYXp8ZW58MHwwfDB8fHww",
+    "savedImageFile": "NikeAirMax270"
+  },
+  {
+    "name": "Apple MacBook Pro 13-Inch",
+    "category": "Electronics",
+    "price": 1299,
+    "description": "The Apple MacBook Pro 13-Inch is the ultimate tool for creativity and productivity. With its powerful processor, stunning Retina display, and all-day battery life, it's perfect for work, play, and everything in between.",
+    "availableQuantity": 20,
+    "images": "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YXBwbGUlMjBtYWNib29rfGVufDB8MHwwfHx8MA%3D%3D",
+    "savedImageFile": "AppleMacBookPro13Inch"
+  },
+  {
+    "name": "Patagonia Nano Puff Jacket",
+    "category": "Clothing",
+    "price": 199,
+    "description": "Stay warm and stylish in the Patagonia Nano Puff Jacket. Made from lightweight, recycled materials, it provides superior insulation without adding bulk. Whether you're hitting the slopes or exploring the city, this jacket has you covered.",
+    "availableQuantity": 30,
+    "images": "https://images.unsplash.com/photo-1556098539-3019e1bdf05e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8bmFubyUyMHB1ZmYlMjBqYWNrZXR8ZW58MHwwfDB8fHww",
+    "savedImageFile": "PatagoniaNanoPuffJacket"
+  },
+  {
+    "name": "Weber Spirit II E-310 Gas Grill",
+    "category": "Home Appliances",
+    "price": 479,
+    "description": "Take your outdoor cooking to the next level with the Weber Spirit II E-310 Gas Grill. With its spacious cooking area and powerful burners, it's perfect for grilling up delicious meals for family and friends. Plus, its sleek design adds style to any backyard.",
+    "availableQuantity": 35,
+    "images": "https://images.unsplash.com/photo-1523139348426-081681667818?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8V2ViZXIlMjBTcGlyaXQlMjBJSSUyMEUlMjAzMTAlMjBHYXMlMjBHcmlsbHxlbnwwfDB8MHx8fDA%3D",
+    "savedImageFile": "WeberSpiritIIE310GasGrill"
+  },
+  {
+    "name": "Canon EOS Rebel T7 DSLR Camera",
+    "category": "Electronics",
+    "price": 499,
+    "description": "Capture life's special moments with the Canon EOS Rebel T7 DSLR Camera. With its high-resolution sensor and advanced autofocus system, it delivers stunning photos and videos with ease. Plus, its intuitive controls make it perfect for beginners and professionals alike.",
+    "availableQuantity": 10,
+    "images": "https://images.unsplash.com/photo-1516724562728-afc824a36e84?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Q2Fub24lMjBFT1MlMjBSZWJlbCUyMFQ3JTIwRFNMUiUyMENhbWVyYXxlbnwwfDB8MHx8fDA%3D",
+    "savedImageFile": "CanonEOSRebelT7DSLRCamera"
+  },
+  {
+    "name": "Adidas Ultraboost Running Shoes",
+    "category": "Footwear",
+    "price": 180,
+    "description": "Experience unmatched comfort and performance with the Adidas Ultraboost Running Shoes. Featuring responsive cushioning and a lightweight design, they're perfect for logging miles on the road or hitting the gym.",
+    "availableQuantity": 40,
+    "images": "https://images.unsplash.com/photo-1518002171953-a080ee817e1f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8YWRpZGFzfGVufDB8MHwwfHx8MA%3D%3D",
+    "savedImageFile": "AdidasUltraboostRunningShoes"
+  },
+  {
+    "name": "IKEA Kallax Bookshelf",
+    "category": "Furniture",
+    "price": 69,
+    "description": "Organize your space in style with the IKEA Kallax Bookshelf. With its versatile design and customizable options, it's perfect for storing books, toys, and decorative items. Plus, its durable construction ensures years of use.",
+    "availableQuantity": 60,
+    "images": "https://images.unsplash.com/photo-1593430980369-68efc5a5eb34?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Ym9va3NoZWxmfGVufDB8MHwwfHx8MA%3D%3D"
+  },
+  {
+    "name": "Handwoven Macrame Wall Hanging",
+    "category": "Handmade",
+    "price": 45,
+    "description": "Add a touch of bohemian style to your home with this Handwoven Macrame Wall Hanging. Made from natural cotton rope, it features intricate knotting and fringe detail for a one-of-a-kind look.",
+    "availableQuantity": 20,
+    "images": "https://images.unsplash.com/photo-1534349762230-e0cadf78f5da?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8SGFuZHdvdmVuJTIwTWFjcmFtZSUyMFdhbGwlMjBIYW5naW5nfGVufDB8MHwwfHx8MA%3D%3D",
+    "savedImageFile": "MacrameWallHanging"
+  },
+  {
+    "name": "Handcrafted Wooden Serving Tray",
+    "category": "Handcrafted",
+    "price": 65,
+    "description": "Serve up style with this Handcrafted Wooden Serving Tray. Handmade from reclaimed wood, it boasts a rustic charm and unique grain pattern that adds warmth to any table setting.",
+    "availableQuantity": 15,
+    "images": "https://images.unsplash.com/photo-1627662168223-7df99068099a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8SGFuZHdvdmVuJTIwc2VydmluZyUyMHRyYXl8ZW58MHwwfDB8fHww",
+    "savedImageFile": "WoodenServingTray"
+  },
+  {
+    "name": "Handmade Ceramic Mug Set",
+    "category": "Handmade",
+    "price": 30,
+    "description": "Sip in style with this Handmade Ceramic Mug Set. Crafted by skilled artisans, each mug features a unique glaze pattern and comfortable handle for an enjoyable drinking experience.",
+    "availableQuantity": 25,
+    "images": "https://images.unsplash.com/photo-1542813751-09a6c8085502?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8bXVnJTIwc2V0fGVufDB8MHwwfHx8MA%3D%3D",
+    "savedImageFile": "CeramicMugSet"
+  },
+  {
+    "name": "Handcrafted Leather Journal",
+    "category": "Handcrafted",
+    "price": 55,
+    "description": "Document your thoughts and adventures in this Handcrafted Leather Journal. Made from premium leather and hand-stitched for durability, it's the perfect companion for writers and travelers alike.",
+    "availableQuantity": 10,
+    "images": "https://images.unsplash.com/photo-1501868984184-76121ed6a6e2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bGVhdGhlciUyMGpvdXJuYWx8ZW58MHwwfDB8fHww",
+    "savedImageFile": "LeatherJournal"
+  },
+  {
+    "name": "Handwoven Basket",
+    "category": "Handmade",
+    "price": 35,
+    "description": "Organize in style with this Handwoven Basket. Skillfully crafted from natural fibers, it's perfect for storing blankets, magazines, or potted plants, adding a touch of texture to any space.",
+    "availableQuantity": 30,
+    "images": "https://images.unsplash.com/photo-1679958854536-a1bb774ef8ab?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGhhbmRtYWRlJTIwYmFza2V0fGVufDB8MHwwfHx8MA%3D%3D",
+    "savedImageFile": "HandwovenBasket"
+  },
+  {
+    "name": "Handwoven Wool Throw Blanket",
+    "category": "Handmade",
+    "price": 80,
+    "description": "Stay cozy and warm with this Handwoven Wool Throw Blanket. Crafted by skilled artisans using traditional techniques, it features a soft texture and timeless design that adds comfort to any living space.",
+    "availableQuantity": 20,
+    "images": "https://images.unsplash.com/photo-1597408702421-951a121ffc86?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHdvb2wlMjBibGFua2V0fGVufDB8MHwwfHx8MA%3D%3D",
+    "savedImageFile": "WoolThrowBlanket"
+  },
+  {
+    "name": "Handcrafted Pottery Vase Set",
+    "category": "Handcrafted",
+    "price": 75,
+    "description": "Elevate your floral arrangements with this Handcrafted Pottery Vase Set. Each vase is wheel-thrown and glazed by hand, resulting in unique shapes and colors that complement any bouquet.",
+    "availableQuantity": 12,
+    "images": "https://images.unsplash.com/photo-1520408222757-6f9f95d87d5d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cG90dGVyeSUyMHZhc2V0fGVufDB8MHwwfHx8MA%3D%3D",
+    "savedImageFile": "PotteryVaseSet"
+  },
+  {
+    "name": "Handmade Beaded Necklace",
+    "category": "Handmade",
+    "price": 40,
+    "description": "Make a statement with this Handmade Beaded Necklace. Hand-strung with semi-precious stones and beads, it adds a pop of color and elegance to any outfit, whether dressed up or down.",
+    "availableQuantity": 30,
+    "images": "https://images.unsplash.com/photo-1510229955695-588e1612a69b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGJlYWRlZCUyMG5lY2tsYWNlfGVufDB8MHwwfHx8MA%3D%3D",
+    "savedImageFile": "BeadedNecklace"
+  },
+  {
+    "name": "Handcrafted Wooden Cheese Board",
+    "category": "Handcrafted",
+    "price": 55,
+    "description": "Serve up your favorite cheeses in style with this Handcrafted Wooden Cheese Board. Made from sustainable wood and finished with food-safe oils, it's perfect for entertaining and makes a thoughtful gift.",
+    "availableQuantity": 18,
+    "images": "https://images.unsplash.com/photo-1664201097144-9d8074ebe175?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8d29vZGVuJTIwY2hlZXNlJTIwYm9hcmR8ZW58MHwwfDB8fHww",
+    "savedImageFile": "WoodenCheeseBoard"
+  },
+  {
+    "name": "Handwoven Cotton Rug",
+    "category": "Handmade",
+    "price": 90,
+    "description": "Add warmth and texture to your floors with this Handwoven Cotton Rug. Crafted on a traditional loom using natural fibers, it's durable, reversible, and easy to clean, making it ideal for high-traffic areas.",
+    "availableQuantity": 25,
+    "images": "https://images.unsplash.com/photo-1671493701788-473b5bc0f393?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Y290dG9uJTIwcnVnfGVufDB8MHwwfHx8MA%3D%3D",
+    "savedImageFile": "CottonRug"
+  }
+]

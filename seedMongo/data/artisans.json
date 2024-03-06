@@ -1,0 +1,62 @@
+[
+    {
+        "name": "David Lee",
+        "mobile": "0192595897",
+        "password": "123",
+        "role": "artisan"
+    },
+    {
+        "name": "Eve Jackson",
+        "mobile": "0172237080",
+        "password": "123",
+        "role": "artisan"
+    },
+    {
+        "name": "Charlie Brown",
+        "mobile": "0449251945",
+        "password": "123",
+        "role": "artisan"
+    },
+    {
+        "name": "Charlie Brown",
+        "mobile": "0531317591",
+        "password": "123",
+        "role": "artisan"
+    },
+    {
+        "name": "Henry King",
+        "mobile": "0336323187",
+        "password": "123",
+        "role": "artisan"
+    },
+    {
+        "name": "Bob Johnson",
+        "mobile": "0236290631",
+        "password": "123",
+        "role": "artisan"
+    },
+    {
+        "name": "Eve Jackson",
+        "mobile": "0818229186",
+        "password": "123",
+        "role": "artisan"
+    },
+    {
+        "name": "Alice Smith",
+        "mobile": "0143919421",
+        "password": "123",
+        "role": "artisan"
+    },
+    {
+        "name": "Henry King",
+        "mobile": "0948908219",
+        "password": "123",
+        "role": "artisan"
+    },
+    {
+        "name": "Eve Jackson",
+        "mobile": "0785361430",
+        "password": "123",
+        "role": "artisan"
+    }
+]
