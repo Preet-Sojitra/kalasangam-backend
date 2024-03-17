@@ -203,7 +203,18 @@ exports.getOneProduct = async (req, res, next) => {
 //endpoint to get all products from db
 exports.getAllProducts = async (req, res, next) => {
   try {
+    const count = req.query?.count
+
     let productsData = await Product.find()
+
+    // if count is provided, return only that many random products
+    if (count) {
+      productsData = productsData
+        .sort(() => 0.5 - Math.random())
+        .slice(0, count)
+    } else {
+      productsData = productsData
+    }
 
     //returning all products data
     return res
@@ -230,7 +241,15 @@ exports.viewInventory = async (req, res) => {
 exports.getProductCategories = async (req, res) => {
   try {
     const categories = await Category.find()
-    return res.status(StatusCodes.OK).json(categories)
+
+    console.log(categories)
+
+    // Return any 5 random categories
+    const randomCategories = categories
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 5)
+
+    return res.status(StatusCodes.OK).json(randomCategories)
   } catch (error) {
     console.log(error)
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error.message)
