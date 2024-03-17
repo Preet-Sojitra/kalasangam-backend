@@ -240,16 +240,20 @@ exports.viewInventory = async (req, res) => {
 
 exports.getProductCategories = async (req, res) => {
   try {
+    const count = req.query?.count
+
     const categories = await Category.find()
+    // console.log(categories)
 
-    console.log(categories)
+    if (count) {
+      const randomCategories = categories
+        .sort(() => 0.5 - Math.random())
+        .slice(0, count)
 
-    // Return any 5 random categories
-    const randomCategories = categories
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 5)
-
-    return res.status(StatusCodes.OK).json(randomCategories)
+      return res.status(StatusCodes.OK).json(randomCategories)
+    } else {
+      return res.status(StatusCodes.OK).json(categories)
+    }
   } catch (error) {
     console.log(error)
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error.message)
