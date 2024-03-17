@@ -208,7 +208,7 @@ exports.getAllProducts = async (req, res, next) => {
     let productsData = await Product.find()
 
     // if count is provided, return only that many random products
-    if (count) {
+    if (parseInt(count) > 0) {
       productsData = productsData
         .sort(() => 0.5 - Math.random())
         .slice(0, count)
@@ -245,7 +245,7 @@ exports.getProductCategories = async (req, res) => {
     const categories = await Category.find()
     // console.log(categories)
 
-    if (count) {
+    if (parseInt(count) > 0) {
       const randomCategories = categories
         .sort(() => 0.5 - Math.random())
         .slice(0, count)
