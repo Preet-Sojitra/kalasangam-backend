@@ -207,10 +207,12 @@ exports.getAllProducts = async (req, res, next) => {
 
     let productsData = await Product.find()
 
-    // if count is provided, return only that many random products
+    // if count is provided, return top newly added products
     if (parseInt(count) > 0) {
       productsData = productsData
-        .sort(() => 0.5 - Math.random())
+        .sort((a, b) => {
+          return new Date(b.createdAt) - new Date(a.createdAt)
+        })
         .slice(0, count)
     } else {
       productsData = productsData
