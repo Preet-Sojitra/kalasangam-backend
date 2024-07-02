@@ -1,4 +1,4 @@
-# Anuvaad Ratna (Backend)
+# Kalasangam (Backend)
 
 > This repository contains the backend code. To view the frontend code, head over to [this repository](https://github.com/Preet-Sojitra/Kalasangam). All the description and instructions are given there.
 
