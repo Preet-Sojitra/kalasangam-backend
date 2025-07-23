@@ -58,11 +58,11 @@ app.use("/api/v2/profile", authorize(ROLES.ALL), profileRouter)
 app.use("/api/v2/payment/checkout", authorize(ROLES.BOTH), paymentRouter)
 app.use("/api/v2/orders", orderRouter)
 
-app.use("/api/v1", RBACRouter)
-app.use("/api/v1", analyticsRouter)
-app.use("/api/v1", cartRouter)
-app.use("/api/v1", orderRouter)
-app.use("/api/v1", paymentRouter)
+// app.use("/api/v1", RBACRouter)
+// app.use("/api/v1", analyticsRouter)
+// app.use("/api/v1", cartRouter)
+// app.use("/api/v1", orderRouter)
+// app.use("/api/v1", paymentRouter)
 
 app.use(errorHandlerMiddleware)
 
